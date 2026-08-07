@@ -1,4 +1,4 @@
-# Harnith Collection — Store Site
+# Harnith Collection, Store Site
 
 A static e-commerce site for Harnith Collection (men's and women's sweatpants,
 office trousers, collar shirts, sneakers, and thrift pieces), built to run
@@ -29,10 +29,10 @@ it's what makes GitHub Pages hosting possible for free.
 
 ## 2. The one thing to understand about hosting this on GitHub Pages
 
-GitHub Pages serves static files only — HTML, CSS, JS, images. There's no
+GitHub Pages serves static files only HTML, CSS, JS, images. There's no
 server running behind it, no database, no PHP. That has real consequences:
 
-- **Cart** works fully — it's stored in the visitor's browser (localStorage),
+- **Cart** works fully, it's stored in the visitor's browser (localStorage),
   not on a server. It's real, it just doesn't follow the customer to a
   different device.
 - **Admin panel** lets you actually add/edit/delete products, but changes
@@ -45,7 +45,7 @@ server running behind it, no database, no PHP. That has real consequences:
   page is fully built and wired for Paystack, just switched off — see
   section 6.
 
-None of this is a shortcut taken because it's "just a demo" — it's the
+None of this is a shortcut taken because it's "just a demo", it's the
 actual ceiling of what free static hosting can do. When Harnith Collection
 is ready to take real orders, the move is to point this same frontend at a
 small backend (Node, or the PHP/MySQL stack from your other catalogue
@@ -59,12 +59,12 @@ view the files through a local server (not by double-clicking index.html —
 the `fetch()` call that loads products.json won't work from a `file://`
 path).
 
-**Option A — VS Code Live Server extension**
+**Option A, VS Code Live Server extension**
 1. Open the `harnith-collection` folder in VS Code.
 2. Install the "Live Server" extension.
 3. Right-click `index.html` → "Open with Live Server".
 
-**Option B — Python (already usually installed)**
+**Option B, Python (already usually installed)**
 ```
 cd harnith-collection
 python3 -m http.server 8000
@@ -79,7 +79,7 @@ Right now every product points at
 `assets/images/products/placeholder.svg`, a plain "image pending" tag so
 nothing looks broken. To swap in the real Pinterest photos:
 
-1. Save the images into `assets/images/products/` — name them something
+1. Save the images into `assets/images/products/` name them something
    sane, e.g. `sweatpants-men-01.jpg`.
 2. Open `assets/data/products.json`, find the product, change its
    `"image"` field to the new filename, e.g.
@@ -88,7 +88,7 @@ nothing looks broken. To swap in the real Pinterest photos:
 
 One image slot outside the product grid, same idea, but read this one twice
 because a mismatch here is the single most common way this breaks:
-- **Hero background** — `assets/images/hero-bg.svg`.
+- **Hero background** `assets/images/hero-bg.svg`.
   1. Delete `assets/images/hero-bg.svg`.
   2. Add your real photo into `assets/images/`, name it **exactly**
      `hero-bg` followed by its real extension — e.g. `hero-bg.jpg` or
@@ -126,7 +126,7 @@ Go to `admin/index.html` (or click "Admin" if you link it somewhere).
   will read from that saved copy instead of the original `products.json`
   the moment you make an edit.
 - **New product** — same thing, adds to that local copy.
-- **Export products.json** — downloads the current state of the catalog.
+- **Export products.json** downloads the current state of the catalog.
   Replace `assets/data/products.json` in your project with the downloaded
   file, then commit and push. That's what makes an admin change visible to
   every visitor, not just your browser.
@@ -170,13 +170,13 @@ logo), the live site updates within a minute or two automatically.
 
 ## 8. What's still a placeholder
 
-- **Logo** — there's no logo file yet, so the header uses a text wordmark
+- **Logo** there's no logo file yet, so the header uses a text wordmark
   ("Harnith Collection") styled in the display font instead. The moment
   she has a real logo, drop it into `assets/images/` and swap the `.logo`
   element in each HTML file's header for an `<img>` tag.
-- **Product photos** — placeholder tag graphic until real photos are added
+- **Product photos** placeholder tag graphic until real photos are added
   (section 4).
-- **Payment** — stubbed and clearly labeled (section 6).
+- **Payment** stubbed and clearly labeled (section 6).
 - **Product copy** — the 16 seed products are realistic examples across all
   your categories (sweatpants, office trousers, collar shirts, sneakers,
   thrift) in both men's and women's versions, but the actual names, prices,
