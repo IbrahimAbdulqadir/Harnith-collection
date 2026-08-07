@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">
+  <rect width="500" height="400" fill="#e4d9c7"/>
+  <g fill="none" stroke="#b9502e" stroke-width="1.5" opacity="0.5">
+    <line x1="0" y1="0" x2="500" y2="400"/>
+    <line x1="500" y1="0" x2="0" y2="400"/>
+  </g>
+  <rect x="140" y="170" width="220" height="60" fill="#efe7da" stroke="#201a22" stroke-width="1"/>
+  <text x="250" y="197" font-family="Courier New, monospace" font-size="12" letter-spacing="1" fill="#201a22" text-anchor="middle">YOUR PHOTO GOES HERE</text>
+  <text x="250" y="215" font-family="Courier New, monospace" font-size="10" letter-spacing="1" fill="#6b6058" text-anchor="middle">replace assets/images/about-placeholder.svg</text>
+</svg>

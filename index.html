@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harnith Collection — Menswear & Womenswear</title>
+<meta name="description" content="Harnith Collection — sweatpants, office trousers, collar shirts, sneakers and thrift pieces, for men and women.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Harnith Collection" class="logo-img"></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="shop.html">Shop All</a>
+      <a href="shop.html?gender=men">Men</a>
+      <a href="shop.html?gender=women">Women</a>
+      <a href="shop.html?category=thrift">Thrift</a>
+    </nav>
+    <div class="header-actions">
+      <form class="search-box" action="shop.html" method="get">
+        <input type="text" name="q" placeholder="Search trousers, shirts…" aria-label="Search products">
+        <button type="submit" aria-label="Search">⌕</button>
+      </form>
+      <a href="cart.html" class="cart-link">
+        Cart <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="hero-eyebrow">New collection — men &amp; women</span>
+      <h1>Everyday wear,<br><em>tagged</em> and ready.</h1>
+      <p>Sweatpants, office trousers, collar shirts, sneakers and hand-picked thrift, cut for men and women alike. Every piece is priced like it's still on the hanger.</p>
+      <a href="shop.html" class="btn btn-primary">Shop the collection</a>
+      <a href="shop.html?category=thrift" class="btn btn-outline" style="margin-left:12px;">Browse thrift</a>
+    </div>
+    <div class="hero-tag">
+      <span class="tag-label">Harnith No. 001</span>
+      <div class="tag-name">Tapered Sweatpants</div>
+      <div class="tag-price">₦15,000</div>
+      <div class="tag-meta">SIZE S–XL &nbsp;·&nbsp; UNISEX FIT</div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="section-head reveal-left">
+    <div>
+      <span class="eyebrow">Flagship first</span>
+      <h2>New drops</h2>
+    </div>
+    <a href="shop.html">View all →</a>
+  </div>
+  <div class="cat-rail reveal-right" style="margin-bottom:28px;">
+    <a class="cat-chip" href="shop.html?category=sweatpants">Sweatpants</a>
+    <a class="cat-chip" href="shop.html?category=office-trousers">Office Trousers</a>
+    <a class="cat-chip" href="shop.html?category=shirts">Collar Shirts</a>
+    <a class="cat-chip" href="shop.html?category=sneakers">Sneakers</a>
+    <a class="cat-chip" href="shop.html?category=thrift">Thrift</a>
+  </div>
+  <div class="product-grid" id="home-grid"></div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid reveal-left">
+      <div>
+        <h4>Harnith Collection</h4>
+        <p style="max-width:36ch; color:rgba(239,231,218,0.65);">Menswear and womenswear for daily rotation. Trousers, shirts, sneakers and thrift, sized and tagged.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html?gender=men">Men</a></li>
+          <li><a href="shop.html?gender=women">Women</a></li>
+          <li><a href="shop.html?category=thrift">Thrift</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Store</h4>
+        <ul>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="checkout.html">Checkout</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Harnith Collection</span>
+      <span>Site by IbrahimAbdulqadir</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  loadProducts().then(products => {
+    const flagship = sortFlagshipFirst(products).slice(0, 8);
+    document.getElementById("home-grid").innerHTML =
+      flagship.map(p => productCardHTML(p)).join("");
+    revealProductGrid(document.getElementById("home-grid"));
+  });
+</script>
+</body>
+</html>

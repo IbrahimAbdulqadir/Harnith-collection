@@ -1,0 +1,189 @@
+[
+  {
+    "id": "hc-001",
+    "name": "Tapered Sweatpants",
+    "category": "sweatpants",
+    "gender": "men",
+    "price": 15000,
+    "sizes": ["S", "M", "L", "XL"],
+    "flagship": true,
+    "description": "Heavyweight cotton-blend sweatpants with a tapered leg and ribbed cuff. Built for everyday wear, from errands to lounging.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-002",
+    "name": "Straight-Fit Office Trousers",
+    "category": "office-trousers",
+    "gender": "men",
+    "price": 22000,
+    "sizes": ["30", "32", "34", "36", "38"],
+    "flagship": true,
+    "description": "Classic straight-fit trousers in a soft twill weave. Sits clean at the waist, holds its crease through a full day.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-003",
+    "name": "Slim Collar Shirt",
+    "category": "shirts",
+    "gender": "men",
+    "price": 18000,
+    "sizes": ["S", "M", "L", "XL"],
+    "flagship": true,
+    "description": "A crisp slim-fit collar shirt in breathable cotton poplin. Works equally well tucked into office trousers or worn open over a tee.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-004",
+    "name": "Low-Top Court Sneakers",
+    "category": "sneakers",
+    "gender": "men",
+    "price": 26000,
+    "sizes": ["40", "41", "42", "43", "44", "45"],
+    "flagship": true,
+    "description": "Clean low-top sneakers in canvas and rubber. A quiet, versatile shoe that pairs with trousers or sweatpants alike.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-005",
+    "name": "Vintage Thrift Denim Jacket",
+    "category": "thrift",
+    "gender": "men",
+    "price": 20000,
+    "sizes": ["M", "L", "XL"],
+    "flagship": false,
+    "description": "One-of-one thrifted denim jacket, hand-picked and quality-checked. No two pieces in this line are identical.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-006",
+    "name": "Relaxed Cargo Sweatpants",
+    "category": "sweatpants",
+    "gender": "men",
+    "price": 16500,
+    "sizes": ["S", "M", "L", "XL"],
+    "flagship": false,
+    "description": "Utility-inspired sweatpants with side cargo pockets and a drawstring waist.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-007",
+    "name": "Wide-Leg Trousers",
+    "category": "office-trousers",
+    "gender": "women",
+    "price": 23000,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "flagship": true,
+    "description": "High-waisted wide-leg trousers in a fluid drape fabric. Elevates a plain top instantly.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-008",
+    "name": "Fitted Collar Shirt",
+    "category": "shirts",
+    "gender": "women",
+    "price": 19000,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "flagship": true,
+    "description": "A tailored collar shirt with a nipped waist. Sharp enough for the office, easy enough for the weekend.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-009",
+    "name": "Jogger Sweatpants",
+    "category": "sweatpants",
+    "gender": "women",
+    "price": 15500,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "flagship": true,
+    "description": "Soft-touch jogger sweatpants with an elastic cuff and drawstring waist.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-010",
+    "name": "Low-Top Canvas Sneakers",
+    "category": "sneakers",
+    "gender": "women",
+    "price": 25000,
+    "sizes": ["36", "37", "38", "39", "40", "41"],
+    "flagship": true,
+    "description": "The women's cut of our signature low-top, in the same canvas and rubber build.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-011",
+    "name": "Vintage Thrift Midi Skirt",
+    "category": "thrift",
+    "gender": "women",
+    "price": 14000,
+    "sizes": ["S", "M", "L"],
+    "flagship": false,
+    "description": "One-of-one thrifted midi skirt, hand-picked and quality-checked before it's listed.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-012",
+    "name": "Pleated Office Trousers",
+    "category": "office-trousers",
+    "gender": "women",
+    "price": 24000,
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "flagship": false,
+    "description": "Front-pleated trousers with a tapered ankle. A quiet, sharp staple for the work week.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-013",
+    "name": "Oxford Collar Shirt",
+    "category": "shirts",
+    "gender": "men",
+    "price": 17500,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "flagship": false,
+    "description": "A heavier oxford-weave collar shirt built to hold shape wash after wash.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-014",
+    "name": "High-Top Sneakers",
+    "category": "sneakers",
+    "gender": "men",
+    "price": 28000,
+    "sizes": ["40", "41", "42", "43", "44"],
+    "flagship": false,
+    "description": "A high-top build on the same clean canvas-and-rubber base as our low-tops.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-015",
+    "name": "Cropped Sweatpants",
+    "category": "sweatpants",
+    "gender": "women",
+    "price": 15000,
+    "sizes": ["XS", "S", "M", "L"],
+    "flagship": false,
+    "description": "An ankle-length cut of our jogger sweatpants, for warmer days.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-016",
+    "name": "Vintage Thrift Flannel Shirt",
+    "category": "thrift",
+    "gender": "men",
+    "price": 13500,
+    "sizes": ["M", "L", "XL"],
+    "flagship": false,
+    "description": "One-of-one thrifted flannel, quality-checked and ready to wear.",
+    "image": "assets/images/products/placeholder.svg"
+  },
+  {
+    "id": "hc-017",
+    "name": "Classic Crewneck Sweatshirt",
+    "category": "sweatpants",
+    "gender": "unisex",
+    "price": 17000,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "flagship": true,
+    "description": "A boxy, unisex crewneck built to be shared or borrowed. One fit, cut generously for anyone.",
+    "image": "assets/images/products/placeholder.svg"
+  }
+]

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Harnith Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-side">
+    <div class="logo">Harnith <span>Admin</span></div>
+    <nav>
+      <a href="index.html">Products</a>
+      <a href="../index.html">← Back to store</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-note">
+      <strong>How this works on GitHub Pages:</strong> edits here save to this browser only
+      (no live server to write to). Use <strong>Export products.json</strong> after making
+      changes, then replace <code>assets/data/products.json</code> in the project and push to
+      GitHub so the change goes live for everyone. When Harnith moves to a real host with a
+      backend, this panel points at that API instead and edits go live instantly for every visitor.
+    </div>
+
+    <div class="admin-toolbar">
+      <h2 style="font-family:var(--font-display); margin:0;">Products (<span id="count">0</span>)</h2>
+      <div>
+        <button class="btn btn-outline" id="export-btn" style="background:#fff; color:var(--ink); border-color:var(--line);">Export products.json</button>
+        <button class="btn btn-primary" id="new-btn">+ New product</button>
+      </div>
+    </div>
+
+    <div class="admin-table-scroll">
+    <table class="admin-table">
+      <thead>
+        <tr><th></th><th>Name</th><th>Category</th><th>Gender</th><th>Price</th><th>Flagship</th><th></th></tr>
+      </thead>
+      <tbody id="admin-tbody"></tbody>
+    </table>
+    </div>
+  </main>
+</div>
+
+<!-- Edit / New product modal-ish panel -->
+<div id="form-overlay" style="display:none; position:fixed; inset:0; background:rgba(32,26,34,0.5); z-index:100; align-items:center; justify-content:center;">
+  <form class="admin-form" id="product-form">
+    <h3 style="font-family:var(--font-display); margin-top:0;" id="form-title">New product</h3>
+    <input type="hidden" id="f-id">
+    <div class="form-row">
+      <label for="f-name">Name</label>
+      <input type="text" id="f-name" required>
+    </div>
+    <div class="form-two">
+      <div class="form-row">
+        <label for="f-category">Category</label>
+        <select id="f-category" required>
+          <option value="sweatpants">Sweatpants</option>
+          <option value="office-trousers">Office Trousers</option>
+          <option value="shirts">Collar Shirts</option>
+          <option value="sneakers">Sneakers</option>
+          <option value="thrift">Thrift</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="f-gender">Gender</label>
+        <select id="f-gender" required>
+          <option value="men">Men</option>
+          <option value="women">Women</option>
+          <option value="unisex">Unisex</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-two">
+      <div class="form-row">
+        <label for="f-price">Price (₦)</label>
+        <input type="number" id="f-price" min="0" required>
+      </div>
+      <div class="form-row">
+        <label for="f-sizes">Sizes (comma separated)</label>
+        <input type="text" id="f-sizes" placeholder="S, M, L, XL" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="f-image-file">Product photo</label>
+      <div class="file-picker">
+        <div class="file-preview" id="file-preview">
+          <img id="file-preview-img" alt="" style="display:none;">
+          <span id="file-preview-empty">No photo yet</span>
+        </div>
+        <div class="file-picker-controls">
+          <input type="file" id="f-image-file" accept="image/*">
+          <input type="hidden" id="f-image">
+        </div>
+      </div>
+      <p class="file-hint" id="file-hint">
+        After picking, save the same file into <code>assets/images/products/</code> so it shows up once exported.
+      </p>
+    </div>
+    <div class="form-row">
+      <label for="f-desc">Description</label>
+      <input type="text" id="f-desc">
+    </div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-flagship">
+      <label for="f-flagship" style="margin:0;">Mark as flagship (appears first)</label>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:20px;">
+      <button type="submit" class="btn btn-primary">Save product</button>
+      <button type="button" class="btn btn-outline" id="cancel-btn" style="background:#fff; color:var(--ink); border-color:var(--line);">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<script src="../assets/js/store.js"></script>
+<script>
+let products = [];
+
+async function init() {
+  products = await loadProductsFrom("../assets/data/products.json");
+  render();
+}
+
+function render() {
+  document.getElementById("count").textContent = products.length;
+  document.getElementById("admin-tbody").innerHTML = products.map(p => `
+    <tr>
+      <td><img src="../${p.image}" alt=""></td>
+      <td>${p.name}</td>
+      <td>${categoryLabel(p.category)}</td>
+      <td><span class="admin-gender">${genderMeta(p.gender).icon}${genderMeta(p.gender).label}</span></td>
+      <td>${formatPrice(p.price)}</td>
+      <td><span class="badge ${p.flagship ? "on" : "off"}">${p.flagship ? "Flagship" : "—"}</span></td>
+      <td class="admin-row-actions">
+        <button data-edit="${p.id}">Edit</button>
+        <button data-delete="${p.id}">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+
+  document.querySelectorAll("[data-edit]").forEach(b =>
+    b.addEventListener("click", () => openForm(products.find(p => p.id === b.dataset.edit))));
+  document.querySelectorAll("[data-delete]").forEach(b =>
+    b.addEventListener("click", () => {
+      if (confirm("Delete this product?")) {
+        products = products.filter(p => p.id !== b.dataset.delete);
+        saveProducts(products);
+        render();
+      }
+    }));
+}
+
+function updateFilePreview(path) {
+  const img = document.getElementById("file-preview-img");
+  const empty = document.getElementById("file-preview-empty");
+  if (path) {
+    img.src = path.startsWith("assets/") ? "../" + path : path;
+    img.style.display = "block";
+    empty.style.display = "none";
+  } else {
+    img.style.display = "none";
+    empty.style.display = "block";
+  }
+}
+
+function openForm(product) {
+  const isNew = !product;
+  document.getElementById("form-title").textContent = isNew ? "New product" : "Edit product";
+  document.getElementById("f-id").value = isNew ? "" : product.id;
+  document.getElementById("f-name").value = isNew ? "" : product.name;
+  document.getElementById("f-category").value = isNew ? "sweatpants" : product.category;
+  document.getElementById("f-gender").value = isNew ? "men" : product.gender;
+  document.getElementById("f-price").value = isNew ? "" : product.price;
+  document.getElementById("f-sizes").value = isNew ? "" : product.sizes.join(", ");
+  document.getElementById("f-image").value = isNew ? "assets/images/products/placeholder.svg" : product.image;
+  document.getElementById("f-image-file").value = "";
+  document.getElementById("f-desc").value = isNew ? "" : product.description;
+  document.getElementById("f-flagship").checked = isNew ? false : !!product.flagship;
+  updateFilePreview(document.getElementById("f-image").value);
+  document.getElementById("form-overlay").style.display = "flex";
+}
+
+document.getElementById("f-image-file").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+  const suggestedPath = "assets/images/products/" + safeName;
+  document.getElementById("f-image").value = suggestedPath;
+  // Live-preview the actual picked file (not the suggested path, since the
+  // real file isn't on disk at that path yet — this just shows what you
+  // chose so you can confirm it's the right one).
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = document.getElementById("file-preview-img");
+    const empty = document.getElementById("file-preview-empty");
+    img.src = ev.target.result;
+    img.style.display = "block";
+    empty.style.display = "none";
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById("new-btn").addEventListener("click", () => openForm(null));
+document.getElementById("cancel-btn").addEventListener("click", () => {
+  document.getElementById("form-overlay").style.display = "none";
+});
+
+document.getElementById("product-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const id = document.getElementById("f-id").value ||
+    "hc-" + Math.random().toString(36).slice(2, 8);
+
+  const data = {
+    id,
+    name: document.getElementById("f-name").value,
+    category: document.getElementById("f-category").value,
+    gender: document.getElementById("f-gender").value,
+    price: Number(document.getElementById("f-price").value),
+    sizes: document.getElementById("f-sizes").value.split(",").map(s => s.trim()).filter(Boolean),
+    image: document.getElementById("f-image").value || "assets/images/products/placeholder.svg",
+    description: document.getElementById("f-desc").value,
+    flagship: document.getElementById("f-flagship").checked
+  };
+
+  const idx = products.findIndex(p => p.id === id);
+  if (idx >= 0) products[idx] = data; else products.push(data);
+
+  saveProducts(products);
+  document.getElementById("form-overlay").style.display = "none";
+  render();
+});
+
+document.getElementById("export-btn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(products, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "products.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("Downloaded — replace assets/data/products.json with this file");
+});
+
+init();
+</script>
+</body>
+</html>

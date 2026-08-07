@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Harnith Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Harnith Collection" class="logo-img"></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop All</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">Cart <span class="cart-count" data-cart-count>0</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="section wrap">
+  <div class="section-head reveal-left"><div><span class="eyebrow">Almost there</span><h2>Checkout</h2></div></div>
+
+  <div class="checkout-grid">
+    <div class="reveal-left">
+      <form id="checkout-form">
+        <div class="form-two">
+          <div class="form-row">
+            <label for="fname">First name</label>
+            <input type="text" id="fname" required>
+          </div>
+          <div class="form-row">
+            <label for="lname">Last name</label>
+            <input type="text" id="lname" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" required>
+        </div>
+        <div class="form-row">
+          <label>How do you want to get this?</label>
+          <div class="fulfillment-options">
+            <label class="fulfillment-opt">
+              <input type="radio" name="fulfillment" value="delivery" id="fulfillment-delivery" checked>
+              <span class="fulfillment-card">
+                <strong>Delivery</strong>
+                <span>Sent to your address · +<span id="delivery-fee-label">₦2,000</span></span>
+              </span>
+            </label>
+            <label class="fulfillment-opt">
+              <input type="radio" name="fulfillment" value="pickup" id="fulfillment-pickup">
+              <span class="fulfillment-card">
+                <strong>Store pickup</strong>
+                <span>Collect in person · no delivery fee</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div id="delivery-fields">
+          <div class="form-row">
+            <label for="address">Delivery address</label>
+            <input type="text" id="address" required>
+          </div>
+          <div class="form-two">
+            <div class="form-row">
+              <label for="city">City</label>
+              <input type="text" id="city" required>
+            </div>
+            <div class="form-row">
+              <label for="state">State</label>
+              <input type="text" id="state" required>
+            </div>
+          </div>
+        </div>
+
+        <div id="pickup-note" class="admin-note" style="display:none;">
+          Pickup location and hours will be shared once Harnith Collection confirms a store
+          address. For now this just marks the order as pickup, no delivery fee applied.
+        </div>
+
+        <div class="gateway-note">
+          <strong>Payment</strong> — this store isn't accepting live payments yet. Once Harnith Collection is handed
+          over with a real Paystack (or Flutterwave) key, the button below goes live for card, transfer and USSD
+          payments. Nothing is charged in demo mode.
+        </div>
+
+        <button type="button" id="pay-btn" class="btn btn-dark btn-full" style="margin-top:20px;">
+          Place demo order — payment inactive
+        </button>
+      </form>
+    </div>
+
+    <div class="reveal-right">
+      <div class="cart-summary" style="margin:0; max-width:none;">
+        <div id="checkout-items"></div>
+        <div class="row total"><span>Total</span><span id="checkout-total">₦0</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Harnith Collection</span>
+      <span>Site by IbrahimAbdulqadir</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const DELIVERY_FEE = 2000;
+
+function isDelivery() {
+  return document.getElementById("fulfillment-delivery").checked;
+}
+
+function renderSummary() {
+  const cart = getCart();
+  const fee = isDelivery() ? DELIVERY_FEE : 0;
+  const subtotal = cartTotal();
+
+  document.getElementById("checkout-items").innerHTML =
+    (cart.map(i => `
+      <div class="row"><span>${i.name} (${i.size}) × ${i.qty}</span><span>${formatPrice(i.price * i.qty)}</span></div>
+    `).join("") || `<div class="row"><span>Cart is empty</span><span></span></div>`) +
+    `<div class="row"><span>${isDelivery() ? "Delivery fee" : "Store pickup"}</span><span>${fee ? formatPrice(fee) : "₦0"}</span></div>`;
+
+  document.getElementById("checkout-total").textContent = formatPrice(subtotal + fee);
+}
+
+function toggleFulfillmentFields() {
+  const delivery = isDelivery();
+  const deliveryFields = document.getElementById("delivery-fields");
+  const pickupNote = document.getElementById("pickup-note");
+  deliveryFields.style.display = delivery ? "block" : "none";
+  pickupNote.style.display = delivery ? "none" : "block";
+  ["address", "city", "state"].forEach(id => {
+    document.getElementById(id).required = delivery;
+  });
+  renderSummary();
+}
+
+document.getElementById("fulfillment-delivery").addEventListener("change", toggleFulfillmentFields);
+document.getElementById("fulfillment-pickup").addEventListener("change", toggleFulfillmentFields);
+
+renderSummary();
+
+/*
+  PAYSTACK INTEGRATION — swap in when Harnith Collection has real keys.
+
+  1. Add before </body>:
+     <script src="https://js.paystack.co/v1/inline.js"><\/script>
+
+  2. Replace the demo handler below with:
+
+     document.getElementById("pay-btn").addEventListener("click", () => {
+       const handler = PaystackPop.setup({
+         key: "pk_live_xxxxxxxxxxxxxxxxxxxx",   // real public key goes here
+         email: document.getElementById("email").value,
+         amount: cartTotal() * 100,               // Paystack uses kobo
+         currency: "NGN",
+         callback: function(response) {
+           // reference = response.reference — verify server-side, then clear cart
+           localStorage.removeItem("harnith_cart_v1");
+           window.location.href = "index.html";
+         },
+         onClose: function() {}
+       });
+       handler.openIframe();
+     });
+
+  Real payment verification has to happen on a server (Paystack's secret key
+  can never live in frontend code), which is exactly the piece that needs a
+  real backend once Harnith takes the site over.
+*/
+
+document.getElementById("pay-btn").addEventListener("click", () => {
+  const form = document.getElementById("checkout-form");
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+  if (getCart().length === 0) {
+    showToast("Your cart is empty");
+    return;
+  }
+  showToast("Demo order placed — payment gateway not yet active");
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Harnith Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Harnith Collection" class="logo-img"></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop All</a>
+      <a href="shop.html?gender=men">Men</a>
+      <a href="shop.html?gender=women">Women</a>
+      <a href="shop.html?category=thrift">Thrift</a>
+    </nav>
+    <div class="header-actions">
+      <form class="search-box" action="shop.html" method="get">
+        <input type="text" name="q" placeholder="Search trousers, shirts…" aria-label="Search products">
+        <button type="submit" aria-label="Search">⌕</button>
+      </form>
+      <a href="cart.html" class="cart-link">Cart <span class="cart-count" data-cart-count>0</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="section wrap" id="pd-wrap">
+  <div class="pd-grid" id="pd-content">
+    <!-- filled by JS -->
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">You might also like</span><h2>More pieces</h2></div>
+  </div>
+  <div class="product-grid" id="related-grid"></div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Harnith Collection</span>
+      <span>Site by IbrahimAbdulqadir</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+let selectedSize = null;
+let qty = 1;
+let currentProduct = null;
+
+function renderProduct(p) {
+  currentProduct = p;
+  document.title = `${p.name} — Harnith Collection`;
+  document.getElementById("pd-content").innerHTML = `
+    <div class="pd-gallery reveal-left"><img src="${p.image}" alt="${p.name}"></div>
+    <div class="pd-info reveal-right">
+      <span class="eyebrow pd-gender">${categoryLabel(p.category)} · <span class="pd-gender-icon">${genderMeta(p.gender).icon}</span>${genderMeta(p.gender).label}</span>
+      <h1>${p.name}</h1>
+      <div class="pd-price">${formatPrice(p.price)}</div>
+      <p class="pd-desc">${p.description}</p>
+
+      <span class="size-label">Select size</span>
+      <div class="size-grid" id="size-grid">
+        ${p.sizes.map(s => `<button type="button" class="size-opt" data-size="${s}">${s}</button>`).join("")}
+      </div>
+
+      <div class="qty-row">
+        <span class="size-label" style="margin:0;">Quantity</span>
+        <div class="qty-control">
+          <button type="button" id="qty-minus">−</button>
+          <span id="qty-val">1</span>
+          <button type="button" id="qty-plus">+</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" id="add-to-cart-btn">Add to cart</button>
+
+      <div class="pd-meta">
+        SKU ${p.id.toUpperCase()} &nbsp;·&nbsp; ${p.flagship ? "Flagship piece" : "In collection"} &nbsp;·&nbsp; Ships in 2–4 days
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll(".size-opt").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".size-opt").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedSize = btn.dataset.size;
+    });
+  });
+
+  document.getElementById("qty-minus").addEventListener("click", () => {
+    qty = Math.max(1, qty - 1);
+    document.getElementById("qty-val").textContent = qty;
+  });
+  document.getElementById("qty-plus").addEventListener("click", () => {
+    qty += 1;
+    document.getElementById("qty-val").textContent = qty;
+  });
+
+  document.getElementById("add-to-cart-btn").addEventListener("click", () => {
+    if (!selectedSize) {
+      showToast("Pick a size first");
+      return;
+    }
+    addToCart(currentProduct, selectedSize, qty);
+  });
+}
+
+loadProducts().then(products => {
+  const id = getQueryParam("id");
+  const product = products.find(p => p.id === id) || products[0];
+  if (!product) {
+    document.getElementById("pd-content").innerHTML = "<p>Product not found.</p>";
+    return;
+  }
+  renderProduct(product);
+
+  const related = products
+    .filter(p => p.id !== product.id && p.category === product.category)
+    .slice(0, 4);
+  const fallback = related.length ? related : products.filter(p => p.id !== product.id).slice(0, 4);
+  document.getElementById("related-grid").innerHTML = fallback.map(p => productCardHTML(p)).join("");
+  observeReveal(".reveal, .reveal-left, .reveal-right");
+  revealProductGrid(document.getElementById("related-grid"));
+});
+</script>
+</body>
+</html>
