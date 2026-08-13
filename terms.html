@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
+<title>Terms of Sale — Harnith Collection</title>
+<meta name="description" content="Terms of sale for orders placed with Harnith Collection.">
 <meta name="robots" content="noindex,follow">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="canonical" href="https://harnith-collection.netlify.app/terms.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -33,9 +35,43 @@
 </header>
 
 <section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">Legal</span><h2>Terms of Sale</h2></div>
+  </div>
+  <div class="prose reveal-right">
+    <p class="page-updated">Last updated: draft — not yet published</p>
+    <div class="draft-notice"><strong>Draft content:</strong> this is a starting template, not legal advice. Have it reviewed by someone qualified for Nigerian consumer law before relying on it for real transactions.</div>
 
-  <div id="cart-body" class="reveal-right"></div>
+    <h2>1. Acceptance of terms</h2>
+    <p>By placing an order on this site, you agree to these Terms of Sale. If you don't agree, please don't place an order.</p>
+
+    <h2>2. Products and pricing</h2>
+    <p>All prices are listed in Nigerian Naira (₦) and include any applicable taxes unless stated otherwise. We reserve the right to correct pricing errors and to change prices at any time before an order is confirmed. Product photos are representative — thrift items are one-of-one and may vary slightly from any reference photo.</p>
+
+    <h2>3. Order acceptance</h2>
+    <p>Placing an order is an offer to buy. We may decline or cancel any order — including for stock unavailability, suspected fraud, or a pricing error — and will let you know if that happens.</p>
+
+    <h2>4. Payment</h2>
+    <p>Payment is processed through our third-party payment provider (Paystack). We do not collect or store your card details ourselves.</p>
+
+    <h2>5. Shipping and delivery</h2>
+    <p>See our <a href="shipping.html">Shipping</a> page for delivery timeframes and fees. Delivery dates are estimates, not guarantees.</p>
+
+    <h2>6. Returns and refunds</h2>
+    <p>See our <a href="returns.html">Returns &amp; Exchanges</a> page for the current policy.</p>
+
+    <h2>7. Intellectual property</h2>
+    <p>All content on this site — text, images, logo and design — belongs to Harnith Collection or its licensors and may not be reused without permission.</p>
+
+    <h2>8. Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, Harnith Collection isn't liable for indirect or consequential losses arising from use of this site or a purchase made through it.</p>
+
+    <h2>9. Governing law</h2>
+    <p>These terms are governed by the laws of the Federal Republic of Nigeria.</p>
+
+    <h2>10. Contact</h2>
+    <p>Questions about these terms? <a href="contact.html">Get in touch</a>.</p>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +109,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

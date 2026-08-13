@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Product — Harnith Collection</title>
+<meta name="description" content="Shop menswear and womenswear at Harnith Collection — sweatpants, office trousers, collar shirts, sneakers and thrift.">
+<link rel="icon" href="assets/images/logo.png" type="image/png">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Harnith Collection">
+<meta property="og:title" content="Harnith Collection">
+<meta property="og:description" content="Shop menswear and womenswear at Harnith Collection.">
+<meta property="og:image" content="https://harnith-collection.netlify.app/assets/images/products/harnith.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Product pages render client-side, so search engines and link-preview
+     bots (which don't run JS) only ever see this generic title/description/
+     image, not the specific product. Fixing that for real needs the pages
+     to be pre-rendered or server-rendered per product — worth doing once
+     this moves off a pure static host. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -49,8 +62,32 @@
 
 <footer class="site-footer">
   <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Harnith Collection</h4>
+        <p style="max-width:36ch; color:rgba(239,231,218,0.65);">Menswear and womenswear for daily rotation. Trousers, shirts, sneakers and thrift, sized and tagged.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html?gender=men">Men</a></li>
+          <li><a href="shop.html?gender=women">Women</a></li>
+          <li><a href="shop.html?category=thrift">Thrift</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="shipping.html">Shipping</a></li>
+          <li><a href="returns.html">Returns</a></li>
+        </ul>
+      </div>
+    </div>
     <div class="footer-bottom">
       <span>© <span id="year"></span> Harnith Collection</span>
+      <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="about.html">About</a></span>
       <span>Site by IbrahimAbdulqadir</span>
     </div>
   </div>
@@ -67,6 +104,7 @@ let currentProduct = null;
 function renderProduct(p) {
   currentProduct = p;
   document.title = `${p.name} — Harnith Collection`;
+  const soldOut = !inStock(p);
   document.getElementById("pd-content").innerHTML = `
     <div class="pd-gallery reveal-left"><img src="${p.image}" alt="${p.name}"></div>
     <div class="pd-info reveal-right">
@@ -74,22 +112,24 @@ function renderProduct(p) {
       <h1>${p.name}</h1>
       <div class="pd-price">${formatPrice(p.price)}</div>
       <p class="pd-desc">${p.description}</p>
+      ${soldOut ? '<p class="sold-out-note">Currently sold out — check back later or save it to your wishlist.</p>' : ""}
+      ${isLowStock(p) ? `<p class="low-stock-note">Only ${p.stock} left in stock</p>` : ""}
 
       <span class="size-label">Select size</span>
       <div class="size-grid" id="size-grid">
-        ${p.sizes.map(s => `<button type="button" class="size-opt" data-size="${s}">${s}</button>`).join("")}
+        ${p.sizes.map(s => `<button type="button" class="size-opt" data-size="${s}" ${soldOut ? "disabled" : ""}>${s}</button>`).join("")}
       </div>
 
       <div class="qty-row">
         <span class="size-label" style="margin:0;">Quantity</span>
         <div class="qty-control">
-          <button type="button" id="qty-minus">−</button>
+          <button type="button" id="qty-minus" ${soldOut ? "disabled" : ""}>−</button>
           <span id="qty-val">1</span>
-          <button type="button" id="qty-plus">+</button>
+          <button type="button" id="qty-plus" ${soldOut ? "disabled" : ""}>+</button>
         </div>
       </div>
 
-      <button class="btn btn-primary btn-full" id="add-to-cart-btn">Add to cart</button>
+      <button class="btn btn-primary btn-full" id="add-to-cart-btn" ${soldOut ? "disabled" : ""}>${soldOut ? "Sold out" : "Add to cart"}</button>
 
       <div class="pd-meta">
         SKU ${p.id.toUpperCase()} &nbsp;·&nbsp; ${p.flagship ? "Flagship piece" : "In collection"} &nbsp;·&nbsp; Ships in 2–4 days

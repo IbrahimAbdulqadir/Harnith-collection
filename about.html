@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
-<meta name="robots" content="noindex,follow">
+<title>About — Harnith Collection</title>
+<meta name="description" content="The story behind Harnith Collection — menswear and womenswear built for daily rotation.">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="canonical" href="https://harnith-collection.netlify.app/about.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -33,9 +34,16 @@
 </header>
 
 <section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
-
-  <div id="cart-body" class="reveal-right"></div>
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">Our story</span><h2>About Harnith Collection</h2></div>
+  </div>
+  <div class="prose reveal-right">
+    <p>Harnith Collection started with a simple frustration: good everyday basics — sweatpants that actually fit, office trousers that hold a crease, a collar shirt that works both ways — shouldn't be hard to find or priced like they're special-occasion pieces. So we built a small catalog around exactly that: pieces for daily rotation, for men and women, priced like they're still on the hanger.</p>
+    <h2>What we carry</h2>
+    <p>Sweatpants, office trousers, collar shirts and sneakers form the core of the collection, in both men's and women's cuts. Alongside that runs our thrift line — hand-picked, quality-checked secondhand pieces. Every thrift item is one-of-one, so once it's gone, that exact piece isn't coming back in the same size or condition.</p>
+    <h2>How we work</h2>
+    <p>We're a small, growing operation. Orders are reviewed and fulfilled by hand, not by a warehouse — which means real attention to each order, and occasionally a little more patience than a big retailer would ask of you. If anything about your order needs a human, <a href="contact.html">reach out</a> and we'll sort it directly.</p>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +81,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

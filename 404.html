@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
+<title>Page not found — Harnith Collection</title>
+<meta name="description" content="This page doesn't exist on Harnith Collection.">
 <meta name="robots" content="noindex,follow">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,10 +33,14 @@
   </div>
 </header>
 
-<section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
-
-  <div id="cart-body" class="reveal-right"></div>
+<section class="wrap state-page">
+  <span class="state-code">404 — Not found</span>
+  <h1>This tag's gone missing.</h1>
+  <p>The page you're looking for doesn't exist, or it's moved. Try the shop, or head back home.</p>
+  <div class="state-actions">
+    <a href="shop.html" class="btn btn-primary">Shop the collection</a>
+    <a href="index.html" class="btn btn-outline" style="background:transparent; border-color:var(--line); color:var(--text-1);">Back to home</a>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +78,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

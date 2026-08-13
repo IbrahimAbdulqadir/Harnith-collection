@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
-<meta name="robots" content="noindex,follow">
+<title>Contact — Harnith Collection</title>
+<meta name="description" content="Get in touch with Harnith Collection about an order, sizing, or anything else.">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="canonical" href="https://harnith-collection.netlify.app/contact.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -33,9 +34,64 @@
 </header>
 
 <section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">Get in touch</span><h2>Contact</h2></div>
+  </div>
 
-  <div id="cart-body" class="reveal-right"></div>
+  <div class="contact-grid">
+    <form class="reveal-left" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks.html">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp-field"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+
+      <div class="form-two">
+        <div class="form-row">
+          <label for="c-name">Name</label>
+          <input type="text" id="c-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="c-email">Email</label>
+          <input type="email" id="c-email" name="email" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="c-subject">Subject</label>
+        <input type="text" id="c-subject" name="subject" placeholder="Order question, sizing, general...">
+      </div>
+      <div class="form-row">
+        <label for="c-message">Message</label>
+        <textarea id="c-message" name="message" class="form-row-textarea" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send message</button>
+    </form>
+
+    <div class="contact-info-card reveal-right">
+      <h3>Reach us directly</h3>
+      <div class="ci-row">
+        <div>
+          <strong>Email</strong>
+          hello@harnithcollection.com
+        </div>
+      </div>
+      <div class="ci-row">
+        <div>
+          <strong>Phone / WhatsApp</strong>
+          +234 000 000 0000
+        </div>
+      </div>
+      <div class="ci-row">
+        <div>
+          <strong>Response time</strong>
+          We reply within 1–2 business days.
+        </div>
+      </div>
+      <div class="ci-row" style="margin-bottom:0;">
+        <div>
+          <strong>Order questions</strong>
+          Include your order name and email so we can find it quickly.
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +129,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

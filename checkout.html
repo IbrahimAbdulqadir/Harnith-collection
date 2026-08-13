@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Checkout — Harnith Collection</title>
+<meta name="robots" content="noindex,follow">
+<link rel="icon" href="assets/images/logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -32,24 +34,30 @@
 
   <div class="checkout-grid">
     <div class="reveal-left">
-      <form id="checkout-form">
+      <form id="checkout-form" name="order" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="order">
+        <input type="hidden" name="order-items" id="order-items-field">
+        <input type="hidden" name="order-total" id="order-total-field">
+        <input type="hidden" name="order-ref" id="order-ref-field">
+        <p class="hp-field"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+
         <div class="form-two">
           <div class="form-row">
             <label for="fname">First name</label>
-            <input type="text" id="fname" required>
+            <input type="text" id="fname" name="first-name" required>
           </div>
           <div class="form-row">
             <label for="lname">Last name</label>
-            <input type="text" id="lname" required>
+            <input type="text" id="lname" name="last-name" required>
           </div>
         </div>
         <div class="form-row">
           <label for="email">Email</label>
-          <input type="email" id="email" required>
+          <input type="email" id="email" name="email" required>
         </div>
         <div class="form-row">
           <label for="phone">Phone number</label>
-          <input type="tel" id="phone" required>
+          <input type="tel" id="phone" name="phone" required>
         </div>
         <div class="form-row">
           <label>How do you want to get this?</label>
@@ -74,16 +82,16 @@
         <div id="delivery-fields">
           <div class="form-row">
             <label for="address">Delivery address</label>
-            <input type="text" id="address" required>
+            <input type="text" id="address" name="address" required>
           </div>
           <div class="form-two">
             <div class="form-row">
               <label for="city">City</label>
-              <input type="text" id="city" required>
+              <input type="text" id="city" name="city" required>
             </div>
             <div class="form-row">
               <label for="state">State</label>
-              <input type="text" id="state" required>
+              <input type="text" id="state" name="state" required>
             </div>
           </div>
         </div>
@@ -94,18 +102,30 @@
         </div>
 
         <div class="gateway-note">
-          <strong>Payment</strong> — this store isn't accepting live payments yet. Once Harnith Collection is handed
-          over with a real Paystack (or Flutterwave) key, the button below goes live for card, transfer and USSD
-          payments. Nothing is charged in demo mode.
+          <strong>Payment</strong> — online payment isn't live yet. Placing an order below sends your details
+          and cart straight to us; we'll contact you directly by email or phone to confirm and arrange payment
+          (bank transfer for now). Once a Paystack key is added, this becomes an instant card/transfer/USSD
+          checkout — see the code comment below for exactly how.
         </div>
 
-        <button type="button" id="pay-btn" class="btn btn-dark btn-full" style="margin-top:20px;">
-          Place demo order — payment inactive
+        <button type="submit" id="pay-btn" class="btn btn-dark btn-full" style="margin-top:20px;">
+          Place order
         </button>
       </form>
+
+      <div id="order-confirm" class="state-page" style="display:none; min-height:0; padding:40px 0;">
+        <span class="state-code">Order received</span>
+        <h1 style="font-size:clamp(24px,3.4vw,32px);">Thank you — we've got it.</h1>
+        <div class="state-ref" id="order-ref-display"></div>
+        <p>We've received your order details and will reach out by email or phone shortly to confirm and arrange payment. Keep your order reference above for when you contact us.</p>
+        <div class="state-actions">
+          <a href="shop.html" class="btn btn-primary">Continue shopping</a>
+          <a href="index.html" class="btn btn-outline" style="background:transparent; border-color:var(--line); color:var(--text-1);">Back to home</a>
+        </div>
+      </div>
     </div>
 
-    <div class="reveal-right">
+    <div class="reveal-right" id="checkout-summary-col">
       <div class="cart-summary" style="margin:0; max-width:none;">
         <div id="checkout-items"></div>
         <div class="row total"><span>Total</span><span id="checkout-total">₦0</span></div>
@@ -116,8 +136,32 @@
 
 <footer class="site-footer">
   <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Harnith Collection</h4>
+        <p style="max-width:36ch; color:rgba(239,231,218,0.65);">Menswear and womenswear for daily rotation. Trousers, shirts, sneakers and thrift, sized and tagged.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html?gender=men">Men</a></li>
+          <li><a href="shop.html?gender=women">Women</a></li>
+          <li><a href="shop.html?category=thrift">Thrift</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="shipping.html">Shipping</a></li>
+          <li><a href="returns.html">Returns</a></li>
+        </ul>
+      </div>
+    </div>
     <div class="footer-bottom">
       <span>© <span id="year"></span> Harnith Collection</span>
+      <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="about.html">About</a></span>
       <span>Site by IbrahimAbdulqadir</span>
     </div>
   </div>
@@ -193,17 +237,59 @@ renderSummary();
   real backend once Harnith takes the site over.
 */
 
-document.getElementById("pay-btn").addEventListener("click", () => {
-  const form = document.getElementById("checkout-form");
+document.getElementById("checkout-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = e.target;
+
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
   }
-  if (getCart().length === 0) {
+  const cart = getCart();
+  if (cart.length === 0) {
     showToast("Your cart is empty");
     return;
   }
-  showToast("Demo order placed — payment gateway not yet active");
+
+  const fee = isDelivery() ? DELIVERY_FEE : 0;
+  const total = cartTotal() + fee;
+  const orderRef = "HC-" + Date.now().toString(36).toUpperCase();
+  const itemsSummary = cart
+    .map(i => `${i.name} (${i.size}) x${i.qty} — ${formatPrice(i.price * i.qty)}`)
+    .join(" | ") + ` | ${isDelivery() ? "Delivery" : "Pickup"} fee: ${formatPrice(fee)}`;
+
+  document.getElementById("order-ref-field").value = orderRef;
+  document.getElementById("order-items-field").value = itemsSummary;
+  document.getElementById("order-total-field").value = formatPrice(total);
+
+  const payBtn = document.getElementById("pay-btn");
+  payBtn.disabled = true;
+  payBtn.textContent = "Placing order…";
+
+  // Netlify's documented AJAX pattern for a form marked data-netlify="true":
+  // POST the form's own data to "/" instead of letting the browser do a
+  // full-page submit, so we can show a real confirmation state and clear
+  // the cart without leaving this page.
+  try {
+    const body = new URLSearchParams(new FormData(form)).toString();
+    const res = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body
+    });
+    if (!res.ok) throw new Error("Form submission failed: " + res.status);
+
+    document.getElementById("order-ref-display").textContent = orderRef;
+    form.style.display = "none";
+    document.getElementById("checkout-summary-col").style.display = "none";
+    document.getElementById("order-confirm").style.display = "flex";
+    localStorage.removeItem("harnith_cart_v1");
+    updateCartCount();
+  } catch (err) {
+    showToast("Couldn't send your order — check your connection and try again");
+    payBtn.disabled = false;
+    payBtn.textContent = "Place order";
+  }
 });
 </script>
 </body>

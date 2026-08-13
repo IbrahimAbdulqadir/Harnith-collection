@@ -1,0 +1,13 @@
+# Harnith Collection
+# NOTE: update the Sitemap URL below once the real Netlify (or custom)
+# domain is confirmed — this placeholder assumes the site is deployed at
+# harnith-collection.netlify.app.
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /thanks.html
+
+Sitemap: https://harnith-collection.netlify.app/sitemap.xml

@@ -5,18 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Admin — Harnith Collection</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../assets/images/logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
-<div class="admin-shell">
+<div id="admin-gate" style="position:fixed; inset:0; z-index:200; background:var(--charcoal); display:flex; align-items:center; justify-content:center; padding:20px;">
+  <form id="admin-gate-form" style="background:var(--surface); padding:32px; border-radius:var(--radius); max-width:340px; width:100%; box-shadow:var(--shadow-lg);">
+    <h3 style="font-family:var(--font-display); margin-top:0;">Admin access</h3>
+    <p style="font-size:13px; color:var(--text-2); margin:0 0 18px;">This is a shared-password gate, not real account security — it keeps casual visitors out, not a determined one (the password lives in this page's source). Swap in Netlify Identity for real login once the site is on Netlify.</p>
+    <div class="form-row">
+      <label for="admin-pass">Password</label>
+      <input type="password" id="admin-pass" autocomplete="current-password" required autofocus>
+    </div>
+    <div id="admin-gate-error" style="color:var(--rust); font-size:13px; margin-bottom:12px; display:none;">Incorrect password.</div>
+    <button type="submit" class="btn btn-primary btn-full">Enter</button>
+  </form>
+</div>
+
+<div class="admin-shell" id="admin-shell" style="display:none;">
   <aside class="admin-side">
     <div class="logo">Harnith <span>Admin</span></div>
     <nav>
       <a href="index.html">Products</a>
       <a href="../index.html">← Back to store</a>
+      <a href="#" id="admin-logout">Log out</a>
     </nav>
     <div class="theme-toggle-row">
       <button type="button" class="icon-btn theme-toggle" aria-label="Toggle dark mode"></button>
@@ -44,7 +60,7 @@
     <div class="admin-table-scroll">
     <table class="admin-table">
       <thead>
-        <tr><th></th><th>Name</th><th>Category</th><th>Gender</th><th>Price</th><th>Flagship</th><th></th></tr>
+        <tr><th></th><th>Name</th><th>Category</th><th>Gender</th><th>Price</th><th>Stock</th><th>Flagship</th><th></th></tr>
       </thead>
       <tbody id="admin-tbody"></tbody>
     </table>
@@ -87,9 +103,13 @@
         <input type="number" id="f-price" min="0" required>
       </div>
       <div class="form-row">
-        <label for="f-sizes">Sizes (comma separated)</label>
-        <input type="text" id="f-sizes" placeholder="S, M, L, XL" required>
+        <label for="f-stock">Stock quantity</label>
+        <input type="number" id="f-stock" min="0" required>
       </div>
+    </div>
+    <div class="form-row">
+      <label for="f-sizes">Sizes (comma separated)</label>
+      <input type="text" id="f-sizes" placeholder="S, M, L, XL" required>
     </div>
     <div class="form-row">
       <label for="f-image-file">Product photo</label>
@@ -124,6 +144,42 @@
 
 <script src="../assets/js/store.js"></script>
 <script>
+// Shared-password gate — a deterrent for casual visitors, not real
+// security (this password is visible to anyone who views the page
+// source). Change it before sharing the admin URL, and replace this
+// with Netlify Identity (free) for real login once the site is on Netlify.
+const ADMIN_PASSWORD = "harnith-admin-2026";
+const ADMIN_SESSION_KEY = "harnith_admin_ok";
+
+function unlockAdmin() {
+  document.getElementById("admin-gate").style.display = "none";
+  document.getElementById("admin-shell").style.display = "grid";
+  init();
+}
+
+if (sessionStorage.getItem(ADMIN_SESSION_KEY) === "1") {
+  unlockAdmin();
+}
+
+document.getElementById("admin-gate-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const val = document.getElementById("admin-pass").value;
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+    unlockAdmin();
+  } else {
+    document.getElementById("admin-gate-error").style.display = "block";
+    document.getElementById("admin-pass").value = "";
+    document.getElementById("admin-pass").focus();
+  }
+});
+
+document.getElementById("admin-logout").addEventListener("click", (e) => {
+  e.preventDefault();
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  location.reload();
+});
+
 let products = [];
 
 async function init() {
@@ -140,6 +196,7 @@ function render() {
       <td>${categoryLabel(p.category)}</td>
       <td><span class="admin-gender">${genderMeta(p.gender).icon}${genderMeta(p.gender).label}</span></td>
       <td>${formatPrice(p.price)}</td>
+      <td><span class="badge ${!inStock(p) || isLowStock(p) ? "on" : "off"}">${p.stock === undefined ? "—" : p.stock}</span></td>
       <td><span class="badge ${p.flagship ? "on" : "off"}">${p.flagship ? "Flagship" : "—"}</span></td>
       <td class="admin-row-actions">
         <button data-edit="${p.id}">Edit</button>
@@ -181,6 +238,7 @@ function openForm(product) {
   document.getElementById("f-category").value = isNew ? "sweatpants" : product.category;
   document.getElementById("f-gender").value = isNew ? "men" : product.gender;
   document.getElementById("f-price").value = isNew ? "" : product.price;
+  document.getElementById("f-stock").value = isNew ? "0" : (product.stock ?? 0);
   document.getElementById("f-sizes").value = isNew ? "" : product.sizes.join(", ");
   document.getElementById("f-image").value = isNew ? "assets/images/products/placeholder.svg" : product.image;
   document.getElementById("f-image-file").value = "";
@@ -226,6 +284,7 @@ document.getElementById("product-form").addEventListener("submit", (e) => {
     category: document.getElementById("f-category").value,
     gender: document.getElementById("f-gender").value,
     price: Number(document.getElementById("f-price").value),
+    stock: Number(document.getElementById("f-stock").value),
     sizes: document.getElementById("f-sizes").value.split(",").map(s => s.trim()).filter(Boolean),
     image: document.getElementById("f-image").value || "assets/images/products/placeholder.svg",
     description: document.getElementById("f-desc").value,
@@ -250,8 +309,6 @@ document.getElementById("export-btn").addEventListener("click", () => {
   URL.revokeObjectURL(url);
   showToast("Downloaded — replace assets/data/products.json with this file");
 });
-
-init();
 </script>
 </body>
 </html>

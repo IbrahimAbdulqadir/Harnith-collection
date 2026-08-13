@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<title>Message sent — Harnith Collection</title>
+<meta name="robots" content="noindex,follow">
+<link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Harnith Collection" class="logo-img"></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop All</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">Cart <span class="cart-count" data-cart-count>0</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="wrap state-page">
+  <span class="state-code">Sent</span>
+  <h1>Got it, thank you.</h1>
+  <p>Your message is on its way to Harnith Collection. We reply within 1–2 business days.</p>
+  <div class="state-actions">
+    <a href="shop.html" class="btn btn-primary">Continue shopping</a>
+    <a href="index.html" class="btn btn-outline" style="background:transparent; border-color:var(--line); color:var(--text-1);">Back to home</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Harnith Collection</span>
+      <span>Site by IbrahimAbdulqadir</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/store.js"></script>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

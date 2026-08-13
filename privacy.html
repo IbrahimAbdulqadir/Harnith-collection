@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
+<title>Privacy Policy — Harnith Collection</title>
+<meta name="description" content="How Harnith Collection collects, uses and protects your data.">
 <meta name="robots" content="noindex,follow">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="canonical" href="https://harnith-collection.netlify.app/privacy.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -33,9 +35,34 @@
 </header>
 
 <section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">Legal</span><h2>Privacy Policy</h2></div>
+  </div>
+  <div class="prose reveal-right">
+    <p class="page-updated">Last updated: draft — not yet published</p>
+    <div class="draft-notice"><strong>Draft content:</strong> this is a starting template, not legal advice. Have it reviewed against the Nigeria Data Protection Act before relying on it for real customer data.</div>
 
-  <div id="cart-body" class="reveal-right"></div>
+    <h2>What we collect</h2>
+    <p>When you place an order or contact us, we collect what you give us directly: name, email, phone number, and delivery address if you choose delivery. We don't collect payment card details — those go straight to our payment processor, Paystack.</p>
+
+    <h2>Your cart and wishlist</h2>
+    <p>Your cart and saved items are stored only in your browser (via <code>localStorage</code>), not on a server. Clearing your browser data clears them, and they don't follow you to another device.</p>
+
+    <h2>How we use your data</h2>
+    <p>Order and contact details are used only to fulfill your order, communicate with you about it, and respond to your enquiries. We don't sell your data.</p>
+
+    <h2>Third parties</h2>
+    <p>Order and contact form submissions are processed through Netlify Forms and delivered to us by email. Payments are processed by Paystack. Both providers handle your data under their own privacy policies.</p>
+
+    <h2>Data retention</h2>
+    <p>We keep order and enquiry records for as long as reasonably needed for accounting, customer service and legal purposes.</p>
+
+    <h2>Your rights</h2>
+    <p>You can ask us what data we hold about you, request a correction, or ask us to delete it, by <a href="contact.html">contacting us</a>.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>We may update this policy as the site and business evolve. The "last updated" date at the top of this page will reflect the latest revision.</p>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +100,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

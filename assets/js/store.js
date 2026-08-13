@@ -131,20 +131,36 @@ function genderMeta(gender) {
   return { label: "Men", icon: ICONS.men, cls: "men" };
 }
 
+// Stock is a simple front-end display field, not a live-decremented
+// inventory count — this is a static-JSON catalog with no server to be the
+// single source of truth, so two shoppers could still both "order" the
+// last unit. Real inventory locking needs the backend this MVP doesn't
+// have yet. Treat missing `stock` as unlimited (undefined check), so
+// existing catalogs without the field don't accidentally show sold out.
+function inStock(p) {
+  return p.stock === undefined || p.stock > 0;
+}
+function isLowStock(p) {
+  return typeof p.stock === "number" && p.stock > 0 && p.stock <= 3;
+}
+
 function productCardHTML(p, imgBase = "") {
   const g = genderMeta(p.gender);
   const liked = isWishlisted(p.id);
+  const soldOut = !inStock(p);
   return `
-    <a class="product-card product-link" href="${imgBase}product.html?id=${p.id}">
+    <a class="product-card product-link${soldOut ? " sold-out" : ""}" href="${imgBase}product.html?id=${p.id}">
       <span class="punch"></span>
-      ${p.flagship ? '<span class="flagship-flag">Flagship</span>' : ""}
+      ${p.flagship && !soldOut ? '<span class="flagship-flag">Flagship</span>' : ""}
       <span class="gender-chip ${g.cls}">${g.icon}${g.label}</span>
       <button type="button" class="wishlist-btn${liked ? " active" : ""}" data-wishlist="${p.id}" aria-label="Save ${p.name} to wishlist" aria-pressed="${liked}">${ICONS.heart}</button>
       <div class="product-thumb">
         <img src="${imgBase}${p.image}" alt="${p.name}" loading="lazy"
           onload="this.classList.add('loaded')"
           onerror="this.onerror=null;this.src='${imgBase}assets/images/products/placeholder.svg';this.classList.add('loaded')">
-        <button type="button" class="quick-view-btn" data-quickview="${p.id}">${ICONS.eye} Quick view</button>
+        ${soldOut
+          ? '<span class="stock-badge">Sold out</span>'
+          : `<button type="button" class="quick-view-btn" data-quickview="${p.id}">${ICONS.eye} Quick view</button>`}
       </div>
       <div class="product-info">
         <p class="p-cat">${categoryLabel(p.category)}</p>
@@ -528,6 +544,7 @@ function renderQuickView(p) {
   const g = genderMeta(p.gender);
   const content = document.getElementById("quick-view-content");
   if (!content) return;
+  const soldOut = !inStock(p);
   content.innerHTML = `
     <div class="qv-grid">
       <div class="qv-gallery"><img src="${p.image}" alt="${p.name}"></div>
@@ -536,11 +553,13 @@ function renderQuickView(p) {
         <h2>${p.name}</h2>
         <div class="pd-price">${formatPrice(p.price)}</div>
         <p class="pd-desc">${p.description || ""}</p>
+        ${soldOut ? '<p class="sold-out-note">Currently sold out.</p>' : ""}
+        ${isLowStock(p) ? `<p class="low-stock-note">Only ${p.stock} left</p>` : ""}
         <span class="size-label">Select size</span>
         <div class="size-grid" id="qv-size-grid">
-          ${p.sizes.map(s => `<button type="button" class="size-opt" data-qv-size="${s}">${s}</button>`).join("")}
+          ${p.sizes.map(s => `<button type="button" class="size-opt" data-qv-size="${s}" ${soldOut ? "disabled" : ""}>${s}</button>`).join("")}
         </div>
-        <button class="btn btn-primary btn-full" id="qv-add-btn" data-qv-add="${p.id}">Add to cart</button>
+        <button class="btn btn-primary btn-full" id="qv-add-btn" data-qv-add="${p.id}" ${soldOut ? "disabled" : ""}>${soldOut ? "Sold out" : "Add to cart"}</button>
         <a href="product.html?id=${p.id}" class="qv-view-full">View full details →</a>
       </div>
     </div>`;
@@ -811,7 +830,7 @@ function revealProductGrid(container) {
    info doesn't have to scroll back up to buy. */
 function setupStickyCTA(product) {
   const realBtn = document.getElementById("add-to-cart-btn");
-  if (!realBtn || !product) return;
+  if (!realBtn || !product || !inStock(product)) return;
 
   let bar = document.querySelector(".mobile-cta");
   if (!bar) {

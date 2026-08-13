@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
-<meta name="robots" content="noindex,follow">
+<title>Returns & Exchanges — Harnith Collection</title>
+<meta name="description" content="Our return, exchange and refund policy at Harnith Collection.">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="canonical" href="https://harnith-collection.netlify.app/returns.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -33,9 +34,27 @@
 </header>
 
 <section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">Changed your mind?</span><h2>Returns &amp; exchanges</h2></div>
+  </div>
+  <div class="prose reveal-right">
+    <div class="draft-notice"><strong>Draft content:</strong> this is a starting template, not legal advice — have the return window, conditions and refund method reviewed before publishing for real sales.</div>
 
-  <div id="cart-body" class="reveal-right"></div>
+    <h2>Return window</h2>
+    <p>Most items can be returned within <strong>7 days</strong> of delivery, unworn, unwashed, with tags attached and in their original condition.</p>
+
+    <h2>Thrift items</h2>
+    <p>Thrift pieces are one-of-one, sold as-is, and described as accurately as possible at listing. Because each piece is unique and secondhand, thrift items are <strong>final sale</strong> unless the item received doesn't match its listing.</p>
+
+    <h2>How to start a return</h2>
+    <p>Contact us through the <a href="contact.html">contact page</a> with your order details and reason for return. We'll confirm eligibility and next steps directly.</p>
+
+    <h2>Refunds</h2>
+    <p>Approved refunds are issued to the original payment method once the returned item is received and checked. Please allow a few business days for the refund to reflect, depending on your bank.</p>
+
+    <h2>Exchanges</h2>
+    <p>Need a different size instead? Let us know when you start your return and we'll arrange an exchange where stock allows.</p>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +92,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

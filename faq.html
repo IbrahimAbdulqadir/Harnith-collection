@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
-<title>Your Cart — Harnith Collection</title>
-<meta name="robots" content="noindex,follow">
+<title>FAQ — Harnith Collection</title>
+<meta name="description" content="Answers to common questions about sizing, shipping, payment and returns at Harnith Collection.">
 <link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="canonical" href="https://harnith-collection.netlify.app/faq.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -33,9 +34,47 @@
 </header>
 
 <section class="section wrap">
-  <div class="section-head reveal-left"><div><span class="eyebrow">Your bag</span><h2>Cart</h2></div></div>
+  <div class="section-head reveal-left">
+    <div><span class="eyebrow">Questions</span><h2>Frequently asked</h2></div>
+  </div>
+  <div class="prose reveal-right">
 
-  <div id="cart-body" class="reveal-right"></div>
+    <details class="faq-item" open>
+      <summary>How do I know what size to order?</summary>
+      <p>Each product page lists the sizes we currently have in stock for that piece. Sweatpants and shirts run true to standard S–XXL sizing; trousers and sneakers are listed in numeric sizes. If you're between sizes or unsure, <a href="contact.html">message us</a> before ordering and we'll help you pick.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What payment methods do you accept?</summary>
+      <p>Card, bank transfer and USSD via Paystack. Payment is processed securely at checkout — we never see or store your card details.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>How long does delivery take?</summary>
+      <p>See our <a href="shipping.html">Shipping</a> page for full details — as a rule of thumb, orders ship within 2–4 business days of payment confirmation.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Can I return or exchange an item?</summary>
+      <p>Most items can be returned within our return window — see the <a href="returns.html">Returns</a> page for the full policy. Thrift pieces are one-of-one and sold as-is, so please check the listing carefully before ordering.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What does "flagship" mean on a product?</summary>
+      <p>Flagship pieces are the ones we're currently leading with — usually our best sellers or newest additions. It's just a way of surfacing them first when you browse.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Do you ship outside Nigeria?</summary>
+      <p>Not yet — right now we fulfill within Nigeria only. If that changes, this page (and the shipping page) will be updated.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>I have a question that's not answered here.</summary>
+      <p>Reach out through the <a href="contact.html">contact page</a> and we'll get back to you directly.</p>
+    </details>
+
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -73,72 +112,7 @@
 
 <script src="assets/js/store.js"></script>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function render() {
-  const cart = getCart();
-  const body = document.getElementById("cart-body");
-
-  if (cart.length === 0) {
-    body.innerHTML = `<div class="empty-state">Your cart is empty. <a href="shop.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">Go find something</a>.</div>`;
-    return;
-  }
-
-  const rows = cart.map(item => `
-    <tr>
-      <td>
-        <div class="cart-item-info">
-          <img src="${item.image}" alt="${item.name}">
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-meta">Size ${item.size}</div>
-          </div>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price)}</td>
-      <td>
-        <div class="qty-control" style="display:inline-flex;">
-          <button type="button" data-action="minus" data-id="${item.id}" data-size="${item.size}">−</button>
-          <span>${item.qty}</span>
-          <button type="button" data-action="plus" data-id="${item.id}" data-size="${item.size}">+</button>
-        </div>
-      </td>
-      <td class="cart-item-meta">${formatPrice(item.price * item.qty)}</td>
-      <td><button class="cart-remove" data-action="remove" data-id="${item.id}" data-size="${item.size}">Remove</button></td>
-    </tr>
-  `).join("");
-
-  body.innerHTML = `
-    <div class="cart-table-scroll">
-    <table class="cart-table">
-      <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-    </div>
-    <div class="cart-summary">
-      <div class="row"><span>Subtotal</span><span>${formatPrice(cartTotal())}</span></div>
-      <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
-      <div class="row total"><span>Total</span><span>${formatPrice(cartTotal())}</span></div>
-      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top:18px;">Proceed to checkout</a>
-    </div>
-  `;
-
-  body.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id, size = btn.dataset.size, action = btn.dataset.action;
-      if (action === "remove") {
-        removeFromCart(id, size);
-      } else {
-        const cart = getCart();
-        const item = cart.find(i => i.id === id && i.size === size);
-        if (item) updateCartQty(id, size, action === "plus" ? item.qty + 1 : item.qty - 1);
-      }
-      render();
-    });
-  });
-}
-
-render();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
