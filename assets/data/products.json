@@ -45,7 +45,7 @@
     "stock": 6,
     "flagship": true,
     "description": "Clean low-top sneakers in canvas and rubber. A quiet, versatile shoe that pairs with trousers or sweatpants alike.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/canvas-sneakers-men.jpg"
   },
   {
     "id": "hc-005",
@@ -57,7 +57,7 @@
     "stock": 1,
     "flagship": false,
     "description": "One-of-one thrifted denim jacket, hand-picked and quality-checked. No two pieces in this line are identical.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/denim-jacket-men.jpg"
   },
   {
     "id": "hc-006",
@@ -117,7 +117,7 @@
     "stock": 7,
     "flagship": true,
     "description": "The women's cut of our signature low-top, in the same canvas and rubber build.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/canvas-sneakers-women.jpg"
   },
   {
     "id": "hc-011",
@@ -165,7 +165,7 @@
     "stock": 5,
     "flagship": false,
     "description": "A high-top build on the same clean canvas-and-rubber base as our low-tops.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/high-top-sneakers-men.jpg"
   },
   {
     "id": "hc-015",
@@ -177,7 +177,7 @@
     "stock": 9,
     "flagship": false,
     "description": "An ankle-length cut of our jogger sweatpants, for warmer days.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/cropped-sweatpants-women.jpg"
   },
   {
     "id": "hc-016",
