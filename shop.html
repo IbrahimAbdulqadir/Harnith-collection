@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Shop All — Harnith Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -132,7 +133,9 @@ function render() {
 }
 
 [catSel, genSel, sortSel].forEach(el => el.addEventListener("change", render));
-searchInput.addEventListener("input", render);
+searchInput.addEventListener("input", debounce(render, 180));
+
+document.getElementById("shop-grid").innerHTML = skeletonGridHTML(8);
 
 loadProducts().then(products => {
   allProducts = products;

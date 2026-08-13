@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Admin — Harnith Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -17,6 +18,10 @@
       <a href="index.html">Products</a>
       <a href="../index.html">← Back to store</a>
     </nav>
+    <div class="theme-toggle-row">
+      <button type="button" class="icon-btn theme-toggle" aria-label="Toggle dark mode"></button>
+      <span>Dark mode</span>
+    </div>
   </aside>
 
   <main class="admin-main">
@@ -31,7 +36,7 @@
     <div class="admin-toolbar">
       <h2 style="font-family:var(--font-display); margin:0;">Products (<span id="count">0</span>)</h2>
       <div>
-        <button class="btn btn-outline" id="export-btn" style="background:#fff; color:var(--ink); border-color:var(--line);">Export products.json</button>
+        <button class="btn btn-outline admin-btn-outline" id="export-btn">Export products.json</button>
         <button class="btn btn-primary" id="new-btn">+ New product</button>
       </div>
     </div>
@@ -112,7 +117,7 @@
     </div>
     <div style="display:flex; gap:10px; margin-top:20px;">
       <button type="submit" class="btn btn-primary">Save product</button>
-      <button type="button" class="btn btn-outline" id="cancel-btn" style="background:#fff; color:var(--ink); border-color:var(--line);">Cancel</button>
+      <button type="button" class="btn btn-outline admin-btn-outline" id="cancel-btn">Cancel</button>
     </div>
   </form>
 </div>

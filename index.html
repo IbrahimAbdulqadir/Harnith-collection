@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{if(localStorage.getItem('harnith_theme_v1')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Harnith Collection — Menswear & Womenswear</title>
 <meta name="description" content="Harnith Collection — sweatpants, office trousers, collar shirts, sneakers and thrift pieces, for men and women.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -105,6 +106,8 @@
 <script src="assets/js/store.js"></script>
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  document.getElementById("home-grid").innerHTML = skeletonGridHTML(8);
 
   loadProducts().then(products => {
     const flagship = sortFlagshipFirst(products).slice(0, 8);
