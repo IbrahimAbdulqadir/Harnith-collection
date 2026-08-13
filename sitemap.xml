@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  NOTE: replace https://harnith-collection.netlify.app with the real domain
-  once deployed. Individual product pages (product.html?id=...) aren't
-  listed here because they're rendered client-side from products.json —
-  there's no per-product URL for a crawler to fetch without a build step
-  that generates one. Shop All is listed instead as the catalog entry point.
+  Live at harnith-collection.netlify.app — update every URL below (and
+  every canonical/og:url tag across the site) if a custom domain is added
+  later. Individual product pages (product.html?id=...) aren't listed here
+  because they're rendered client-side from products.json — there's no
+  per-product URL for a crawler to fetch without a build step that
+  generates one. Shop All is listed instead as the catalog entry point.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://harnith-collection.netlify.app/</loc><priority>1.0</priority></url>

@@ -1,7 +1,7 @@
 # Harnith Collection
-# NOTE: update the Sitemap URL below once the real Netlify (or custom)
-# domain is confirmed — this placeholder assumes the site is deployed at
-# harnith-collection.netlify.app.
+# Live at harnith-collection.netlify.app. If a custom domain is added
+# later, update the Sitemap URL below (and every canonical/og:url tag
+# across the site) to match.
 
 User-agent: *
 Allow: /

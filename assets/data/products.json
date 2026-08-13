@@ -9,7 +9,7 @@
     "stock": 14,
     "flagship": true,
     "description": "Heavyweight cotton-blend sweatpants with a tapered leg and ribbed cuff. Built for everyday wear, from errands to lounging.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/jogger3.jpg"
   },
   {
     "id": "hc-002",
@@ -21,7 +21,7 @@
     "stock": 9,
     "flagship": true,
     "description": "Classic straight-fit trousers in a soft twill weave. Sits clean at the waist, holds its crease through a full day.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/officepant.jpg"
   },
   {
     "id": "hc-003",
@@ -33,7 +33,7 @@
     "stock": 16,
     "flagship": true,
     "description": "A crisp slim-fit collar shirt in breathable cotton poplin. Works equally well tucked into office trousers or worn open over a tee.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/collarshirtsmen1.jpg"
   },
   {
     "id": "hc-004",
@@ -69,7 +69,7 @@
     "stock": 11,
     "flagship": false,
     "description": "Utility-inspired sweatpants with side cargo pockets and a drawstring waist.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/cargopant.jpg"
   },
   {
     "id": "hc-007",
@@ -81,7 +81,7 @@
     "stock": 8,
     "flagship": true,
     "description": "High-waisted wide-leg trousers in a fluid drape fabric. Elevates a plain top instantly.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/femaleoffice.jpg"
   },
   {
     "id": "hc-008",
@@ -93,7 +93,7 @@
     "stock": 13,
     "flagship": true,
     "description": "A tailored collar shirt with a nipped waist. Sharp enough for the office, easy enough for the weekend.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/collarshirtfemale1.jpg"
   },
   {
     "id": "hc-009",
@@ -129,7 +129,7 @@
     "stock": 1,
     "flagship": false,
     "description": "One-of-one thrifted midi skirt, hand-picked and quality-checked before it's listed.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/skirt.jpg"
   },
   {
     "id": "hc-012",
@@ -141,7 +141,7 @@
     "stock": 10,
     "flagship": false,
     "description": "Front-pleated trousers with a tapered ankle. A quiet, sharp staple for the work week.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/femaleofficeee.jpg"
   },
   {
     "id": "hc-013",
@@ -153,7 +153,7 @@
     "stock": 12,
     "flagship": false,
     "description": "A heavier oxford-weave collar shirt built to hold shape wash after wash.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/collarshirtmen2.jpg"
   },
   {
     "id": "hc-014",
@@ -189,7 +189,7 @@
     "stock": 0,
     "flagship": false,
     "description": "One-of-one thrifted flannel, quality-checked and ready to wear.",
-    "image": "assets/images/products/placeholder.svg"
+    "image": "assets/images/products/thriftsss.jpg"
   },
   {
     "id": "hc-017",
