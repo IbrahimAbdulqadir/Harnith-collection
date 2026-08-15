@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    body { margin: 0; background: #0B0D12; }
+    a { color: #4FC3E8; text-decoration: none; }
+    a:hover { color: #6BEBB4; }
+    @keyframes slPulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    @keyframes slArrive { 0%{opacity:0;transform:translateX(-10px)} 100%{opacity:1;transform:translateX(0)} }
+    @keyframes slFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    @keyframes slSpin { 0%{transform:rotateY(-32deg) rotateX(6deg)} 50%{transform:rotateY(32deg) rotateX(-6deg)} 100%{transform:rotateY(-32deg) rotateX(6deg)} }
+    ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(74,222,156,.4); border-radius: 4px; }
+  </style>
+</helmet>
+
+<div style="min-height:100vh;position:relative;font-family:'Source Sans 3',sans-serif;color:#EDEFF3;overflow-x:hidden">
+
+  <div style="position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+    <div style="position:absolute;left:-20%;right:-20%;bottom:-30%;height:75%;transform:perspective(700px) rotateX(58deg);background-image:linear-gradient(30deg,rgba(74,222,156,.14) 1px,transparent 1px),linear-gradient(-30deg,rgba(79,195,232,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:64px 110px,64px 110px,64px 110px;-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,.9),transparent);mask-image:linear-gradient(to top,rgba(0,0,0,.9),transparent)"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 20% 10%,rgba(74,222,156,.06),transparent 45%),radial-gradient(circle at 85% 25%,rgba(79,195,232,.06),transparent 45%)"></div>
+  </div>
+
+  <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;padding:32px">
+      <div style="display:flex;align-items:center;gap:60px;flex-wrap:wrap;justify-content:center">
+        <div style="width:170px;height:170px;position:relative;flex-shrink:0;perspective:800px">
+          <div style="width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:slSpin 5s ease-in-out infinite">
+            <div style="position:absolute;inset:0;border-radius:50%;background:#0D5A3F;transform:translateZ(-10px);box-shadow:0 0 0 6px #17703F"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8CF4C7,#4ADE9C 65%);transform:translateZ(14px);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -10px 24px rgba(0,0,0,.18),0 0 0 6px #1F8F63">
+              <i class="ti ti-shield-check" aria-hidden="true" style="font-size:64px;color:#0B0D12"></i>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:30px">
+            <div style="width:32px;height:32px;position:relative;flex-shrink:0;perspective:300px">
+              <div style="width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:slSpin 5s ease-in-out infinite">
+                <div style="position:absolute;inset:0;border-radius:50%;background:#0D5A3F;transform:translateZ(-4px);box-shadow:0 0 0 3px #17703F"></div>
+                <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8CF4C7,#4ADE9C 65%);transform:translateZ(6px);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #1F8F63">
+                  <i class="ti ti-shield-check" aria-hidden="true" style="font-size:13px;color:#0B0D12"></i>
+                </div>
+              </div>
+            </div>
+            <span style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.02em;color:#EDEFF3">SentinelLog</span>
+          </div>
+          <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:30px;width:340px;box-shadow:8px 8px 0 #05060A,16px 16px 0 #020304,0 30px 60px rgba(0,0,0,.5)">
+            <div style="font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8A8F9C;margin-bottom:20px">Sign in</div>
+            <form onSubmit="{{ login }}">
+              <div style="margin-bottom:16px">
+                <label style="display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F9C;margin-bottom:7px">Username</label>
+                <input type="text" required style="width:100%;background:#1C212C;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#EDEFF3;font-size:14px;padding:11px 13px;outline:none;font-family:'Source Sans 3',sans-serif;box-sizing:border-box" style-focus="border-color:#4FC3E8">
+              </div>
+              <div style="margin-bottom:22px">
+                <label style="display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F9C;margin-bottom:7px">Password</label>
+                <input type="password" required style="width:100%;background:#1C212C;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#EDEFF3;font-size:14px;padding:11px 13px;outline:none;font-family:'Source Sans 3',sans-serif;box-sizing:border-box" style-focus="border-color:#4FC3E8">
+              </div>
+              <button type="submit" style="width:100%;background:#4ADE9C;color:#0B0D12;border:none;border-radius:10px;padding:13px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:.01em" style-hover="background:#1F8F63;color:#fff">Sign in</button>
+            </form>
+            <div style="margin-top:16px;font-size:11.5px;color:#8A8F9C;text-align:center">Demo prototype — any credentials work</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+    <div style="position:sticky;top:0;z-index:10;background:#0E1117;border-bottom:1px solid rgba(255,255,255,.08);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:64px">
+      <div style="display:flex;align-items:center;gap:12px;cursor:pointer" onClick="{{ goDashboard }}">
+        <div style="width:30px;height:30px;position:relative;flex-shrink:0;perspective:280px">
+          <div style="width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:slSpin 5s ease-in-out infinite">
+            <div style="position:absolute;inset:0;border-radius:50%;background:#0D5A3F;transform:translateZ(-4px);box-shadow:0 0 0 3px #17703F"></div>
+            <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8CF4C7,#4ADE9C 65%);transform:translateZ(6px);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #1F8F63">
+              <i class="ti ti-shield-check" aria-hidden="true" style="font-size:12px;color:#0B0D12"></i>
+            </div>
+          </div>
+        </div>
+        <span style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.02em;color:#EDEFF3">SentinelLog</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:4px">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+          <div onClick="{{ item.onClick }}" data-nav="{{ item.key }}" style="{{ item.navStyle }}">
+            <i class="ti {{ item.icon }}" aria-hidden="true" style="font-size:16px"></i>{{ item.label }}
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.55);padding:6px 12px;border:1px solid rgba(255,255,255,.15);border-radius:99px;white-space:nowrap">
+          <div style="width:7px;height:7px;border-radius:50%;background:#4ADE9C;animation:slPulse 2s infinite"></div>Engine online
+        </div>
+        <div onClick="{{ logout }}" style="color:rgba(255,255,255,.5);font-size:17px;padding:6px;cursor:pointer;display:flex" title="Log out" style-hover="color:#fff">
+          <i class="ti ti-logout" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:relative;z-index:1;padding:32px 28px;max-width:1180px;margin:0 auto">
+
+      <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-bottom:26px">
+          <div style="font-family:'Outfit',sans-serif;font-size:25px;font-weight:700;letter-spacing:-.02em">Dashboard</div>
+          <div style="font-size:13px;color:#8A8F9C;margin-top:4px">{{ dashboardSub }}</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+          <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+            <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px 22px;box-shadow:4px 4px 0 #05060A,8px 8px 0 #020304,0 16px 32px rgba(0,0,0,.3);transition:transform .2s,box-shadow .2s" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304,0 20px 40px rgba(0,0,0,.4)">
+              <div style="display:flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8A8F9C;margin-bottom:10px">
+                <i class="ti {{ m.icon }}" aria-hidden="true" style="font-size:15px"></i>{{ m.label }}
+              </div>
+              <div style="font-family:'Outfit',sans-serif;font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1" style="{{ m.valueStyle }}">{{ m.value }}</div>
+              <div style="font-size:11.5px;color:#8A8F9C;margin-top:6px">{{ m.sub }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:16px">
+          <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304,0 20px 40px rgba(0,0,0,.35)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6BEBB4">Recent alerts</span>
+              <a href="#" onClick="{{ goAlerts }}" style="font-size:12.5px;font-weight:600">View all &rarr;</a>
+            </div>
+            <sc-for list="{{ recentAlerts }}" as="a" hint-placeholder-count="3">
+              <div onClick="{{ a.onClick }}" style="display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer">
+                <div style="width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px" style="{{ a.iconStyle }}">
+                  <i class="ti {{ a.icon }}" aria-hidden="true"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13.5px;font-weight:700;color:#EDEFF3;margin-bottom:2px">{{ a.title }}</div>
+                  <div style="font-size:12px;color:#8A8F9C;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ a.description }}</div>
+                </div>
+                <span style="font-size:11px;color:#8A8F9C;white-space:nowrap;padding-top:3px">{{ a.timeAgo }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304,0 20px 40px rgba(0,0,0,.35)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4FC3E8">Monitor sessions</span>
+              <a href="#" onClick="{{ goNewMonitor }}" style="font-size:12.5px;font-weight:600">+ New</a>
+            </div>
+            <sc-for list="{{ sessionsList }}" as="s" hint-placeholder-count="2">
+              <div onClick="{{ s.onClick }}" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer">
+                <div style="width:32px;height:32px;border-radius:10px;background:rgba(79,195,232,.14);color:#4FC3E8;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">
+                  <i class="ti {{ s.icon }}" aria-hidden="true"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13.5px;font-weight:700;color:#EDEFF3">{{ s.target_name }}</div>
+                  <div style="font-size:12px;color:#8A8F9C">{{ s.metaLine }}</div>
+                </div>
+                <span style="font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap" style="{{ s.pillStyle }}">{{ s.modeLabel }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#0E1117;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:6px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304,0 20px 40px rgba(0,0,0,.35)">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px">
+            <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9C">Live event feed</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#4ADE9C"><span style="width:6px;height:6px;border-radius:50%;background:#4ADE9C;animation:slPulse 2s infinite"></span>streaming</span>
+          </div>
+          <div style="background:#05060A;border-radius:12px;margin:0 10px 10px;padding:14px 16px;font-family:ui-monospace,monospace;font-size:12.5px;line-height:1.9;max-height:280px;overflow-y:auto">
+            <sc-for list="{{ feedItems }}" as="f" hint-placeholder-count="6">
+              <div style="display:flex;gap:10px;animation:slArrive .4s ease-out">
+                <span style="color:rgba(255,255,255,.3)">{{ f.time }}</span>
+                <span style="{{ f.textStyle }}">{{ f.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isAlerts }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:22px">
+          <div style="font-family:'Outfit',sans-serif;font-size:25px;font-weight:700;letter-spacing:-.02em">Alerts</div>
+          <div style="font-size:13px;color:#8A8F9C;margin-top:4px">{{ alertsCount }} total alerts across all monitor sessions</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ alertsFull }}" as="a" hint-placeholder-count="4">
+            <div onClick="{{ a.onClick }}" style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;cursor:pointer;box-shadow:5px 5px 0 #05060A,10px 10px 0 #020304;transition:transform .2s" style-hover="transform:translate(-2px,-2px)">
+              <div style="display:flex;align-items:flex-start;gap:14px">
+                <div style="width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px" style="{{ a.iconStyle }}">
+                  <i class="ti {{ a.icon }}" aria-hidden="true"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+                    <span style="font-size:14px;font-weight:700;color:#EDEFF3">{{ a.title }}</span>
+                    <span style="font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px" style="{{ a.pillStyle }}">{{ a.severity }}</span>
+                  </div>
+                  <div style="font-size:13px;color:#8A8F9C">{{ a.description }}</div>
+                  <div style="font-size:11.5px;color:#8A8F9C;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap">
+                    <span><i class="ti ti-network" aria-hidden="true"></i> {{ a.source_ip }}</span>
+                    <span><i class="ti ti-user" aria-hidden="true"></i> {{ a.username }}</span>
+                    <span><i class="ti ti-clock" aria-hidden="true"></i> {{ a.timeAgo }}</span>
+                  </div>
+                </div>
+                <span style="font-size:12px;color:#4FC3E8;white-space:nowrap">View &rarr;</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isAlertDetail }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ goAlerts }}" style="display:flex;align-items:center;gap:6px;font-size:13px;color:#8A8F9C;cursor:pointer;margin-bottom:18px" style-hover="color:#EDEFF3">
+          <i class="ti ti-arrow-left" aria-hidden="true"></i>Back to alerts
+        </div>
+        <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:26px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304,0 20px 40px rgba(0,0,0,.35);margin-bottom:16px">
+          <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:18px">
+            <div style="width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px" style="{{ detail.iconStyle }}">
+              <i class="ti {{ detail.icon }}" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div style="font-family:'Outfit',sans-serif;font-size:19px;font-weight:700;color:#EDEFF3">{{ detail.title }}</div>
+              <div style="font-size:13px;color:#8A8F9C;margin-top:4px">{{ detail.description }}</div>
+            </div>
+            <span style="margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap" style="{{ detail.pillStyle }}">{{ detail.severity }}</span>
+          </div>
+          <div style="display:flex;gap:24px;font-size:12.5px;color:#8A8F9C;flex-wrap:wrap;padding:14px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)">
+            <span><i class="ti ti-network" aria-hidden="true"></i> Source IP: <strong style="color:#EDEFF3">{{ detail.source_ip }}</strong></span>
+            <span><i class="ti ti-user" aria-hidden="true"></i> Account: <strong style="color:#EDEFF3">{{ detail.username }}</strong></span>
+            <span><i class="ti ti-hash" aria-hidden="true"></i> {{ detail.event_count }} events</span>
+            <span><i class="ti ti-clock" aria-hidden="true"></i> {{ detail.timeAgo }}</span>
+          </div>
+          <div style="margin-top:16px;padding:14px 16px;background:rgba(74,222,156,.1);border:1px solid rgba(74,222,156,.25);border-radius:12px;font-size:13px;color:#CFEFDE">
+            <span style="font-weight:700;color:#6BEBB4">AI triage:</span> {{ detail.aiVerdict }}
+          </div>
+        </div>
+        <div style="background:#0E1117;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:6px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304">
+          <div style="padding:14px 16px 10px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9C">Raw log evidence</div>
+          <div style="background:#05060A;border-radius:12px;margin:0 10px 10px;padding:14px 16px;font-family:ui-monospace,monospace;font-size:12.5px;line-height:2;color:#FF9C8C">
+            <sc-for list="{{ detail.evidence }}" as="line" hint-placeholder-count="3">
+              <div>{{ line }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBlocks }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:22px">
+          <div style="font-family:'Outfit',sans-serif;font-size:25px;font-weight:700;letter-spacing:-.02em">Blocked IPs</div>
+          <div style="font-size:13px;color:#8A8F9C;margin-top:4px">{{ blocksCount }} automated blocks recorded by active response</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ blocksList }}" as="b" hint-placeholder-count="3">
+            <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;box-shadow:5px 5px 0 #05060A,10px 10px 0 #020304">
+              <div style="display:flex;align-items:flex-start;gap:14px">
+                <div style="width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px" style="{{ b.iconStyle }}">
+                  <i class="ti {{ b.icon }}" aria-hidden="true"></i>
+                </div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+                    <span style="font-family:ui-monospace,monospace;font-size:14px;font-weight:600;color:#EDEFF3">{{ b.ip }}</span>
+                    <span style="font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px" style="{{ b.pillStyle }}">{{ b.statusLabel }}</span>
+                    <span style="font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:rgba(232,179,79,.15);color:#E8B34F">{{ b.offenseLabel }}</span>
+                  </div>
+                  <div style="font-size:13px;color:#8A8F9C">{{ b.note }}</div>
+                  <div style="font-size:11.5px;color:#8A8F9C;margin-top:6px;display:flex;gap:16px;flex-wrap:wrap">
+                    <span><i class="ti ti-clock" aria-hidden="true"></i> blocked {{ b.blockedAgo }}</span>
+                    <span><i class="ti ti-hourglass" aria-hidden="true"></i> {{ b.durationLabel }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isNewMonitor }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:22px">
+          <div style="font-family:'Outfit',sans-serif;font-size:25px;font-weight:700;letter-spacing:-.02em">New monitor</div>
+          <div style="font-size:13px;color:#8A8F9C;margin-top:4px">Point SentinelLog at a log source to start watching for threats</div>
+        </div>
+        <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:26px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304;max-width:560px">
+          <div style="font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8A8F9C;margin-bottom:10px">Mode</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px">
+            <sc-for list="{{ modeOptions }}" as="mo" hint-placeholder-count="2">
+              <div onClick="{{ mo.onClick }}" style="{{ mo.cardStyle }}">
+                <div style="width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:17px" style="{{ mo.iconStyle }}"><i class="ti {{ mo.icon }}" aria-hidden="true"></i></div>
+                <div style="font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#EDEFF3;margin-bottom:3px">{{ mo.title }}</div>
+                <div style="font-size:12px;color:#8A8F9C">{{ mo.desc }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8A8F9C;margin-bottom:10px">Log type</div>
+          <select value="{{ logType }}" onChange="{{ setLogType }}" style="width:100%;background:#1C212C;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#EDEFF3;font-size:13.5px;padding:11px 14px;outline:none;margin-bottom:22px;font-family:'Source Sans 3',sans-serif">
+            <option value="auth">SSH / Auth log</option>
+            <option value="nginx">Nginx / Apache access log</option>
+            <option value="sudo">Sudo / privilege log</option>
+          </select>
+
+          <button onClick="{{ startMonitor }}" style="width:100%;background:#4ADE9C;color:#0B0D12;border:none;border-radius:10px;padding:13px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif" style-hover="background:#1F8F63;color:#fff">Start monitoring</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isMonitor }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div>
+            <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.02em">Monitor &mdash; <span style="color:#4ADE9C">{{ monitorSession.target_name }}</span></div>
+            <div style="font-size:13px;color:#8A8F9C;margin-top:4px">{{ monitorSession.metaLine }}</div>
+          </div>
+          <button onClick="{{ toggleMonitorLive }}" style="{{ monitorToggleStyle }}">{{ monitorToggleLabel }}</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px">
+          <sc-for list="{{ monitorMetrics }}" as="mm" hint-placeholder-count="4">
+            <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;box-shadow:4px 4px 0 #05060A,8px 8px 0 #020304">
+              <div style="font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8A8F9C;margin-bottom:8px">{{ mm.label }}</div>
+              <div style="font-family:'Outfit',sans-serif;font-size:26px;font-weight:700" style="{{ mm.valueStyle }}">{{ mm.value }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
+          <div style="background:#0E1117;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:6px;box-shadow:6px 6px 0 #05060A,12px 12px 0 #020304">
+            <div style="padding:14px 16px 10px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9C">Live log feed</div>
+            <div style="background:#05060A;border-radius:12px;margin:0 10px 10px;padding:14px 16px;font-family:ui-monospace,monospace;font-size:12.5px;line-height:1.9;max-height:400px;overflow-y:auto">
+              <sc-for list="{{ feedItems }}" as="f" hint-placeholder-count="8">
+                <div style="display:flex;gap:10px">
+                  <span style="color:rgba(255,255,255,.3)">{{ f.time }}</span>
+                  <span style="{{ f.textStyle }}">{{ f.text }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#151922;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;box-shadow:5px 5px 0 #05060A,10px 10px 0 #020304">
+            <div style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9C;margin-bottom:14px">Live alerts</div>
+            <sc-for list="{{ monitorAlerts }}" as="a" hint-placeholder-count="2">
+              <div onClick="{{ a.onClick }}" style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer">
+                <div style="width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px" style="{{ a.iconStyle }}"><i class="ti {{ a.icon }}" aria-hidden="true"></i></div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:12.5px;font-weight:700;color:#EDEFF3">{{ a.title }}</div>
+                  <div style="font-size:11px;color:#8A8F9C">{{ a.timeAgo }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+class Component extends DCLogic {
+  state = {
+    screen: 'login',
+    selectedAlertId: null,
+    activeSessionId: 's1',
+    logType: 'auth',
+    newMode: 'replay',
+    feed: [
+      {id:1,type:'auth_success',user:'amina',ip:'102.89.44.21',time:new Date(Date.now()-40000)},
+      {id:2,type:'auth_failure',user:'root',ip:'185.220.101.45',time:new Date(Date.now()-25000)},
+      {id:3,type:'404',ip:'92.63.197.11',path:'/wp-admin/setup.php',time:new Date(Date.now()-12000)}
+    ],
+    sessions: [
+      {id:'s1',target_name:'web-01 (auth.log)',mode:'tail',log_type:'auth',live:true,stats:{lines_processed:842,auth_failures:37,auth_successes:210,alerts:3}},
+      {id:'s2',target_name:'nginx-edge (access.log)',mode:'replay',log_type:'nginx',live:false,stats:{lines_processed:1230,auth_failures:0,auth_successes:0,alerts:1}}
+    ],
+    alerts: [
+      {id:'a1',title:'Brute force attempt detected',description:'5+ failed logins from 185.220.101.45 within 60s',severity:'critical',rule:'brute_force',source_ip:'185.220.101.45',username:'root',event_count:7,minutesAgo:4,aiVerdict:'Repeated failed logins from a single address within one minute. This matches an automated password-guessing attack — the source IP was blocked automatically for 30 minutes.',evidence:['Failed password for root from 185.220.101.45 port 51422 ssh2','Failed password for root from 185.220.101.45 port 51430 ssh2','Failed password for root from 185.220.101.45 port 51448 ssh2','Failed password for root from 185.220.101.45 port 51455 ssh2','Failed password for root from 185.220.101.45 port 51462 ssh2']},
+      {id:'a2',title:'Login outside normal hours',description:'User kelvin authenticated at 02:14, no prior night-time history',severity:'high',rule:'suspicious_time',source_ip:'102.89.44.21',username:'kelvin',event_count:1,minutesAgo:52,aiVerdict:'This account has never logged in during night hours before. Could be legitimate late-night work, or a compromised credential being used off-hours. Worth a quick check-in with kelvin.',evidence:['Accepted password for kelvin from 102.89.44.21 port 49210 ssh2']},
+      {id:'a3',title:'Directory traversal attempt',description:'Path traversal pattern detected from 92.63.197.11',severity:'high',rule:'web_attack',source_ip:'92.63.197.11',username:'—',event_count:4,minutesAgo:118,aiVerdict:'Someone is probing the web server for files outside its intended directory. Not successful yet based on response codes, but worth watching this IP.',evidence:['92.63.197.11 - - "GET /../../etc/passwd HTTP/1.1" 403','92.63.197.11 - - "GET /..%2f..%2fetc/shadow HTTP/1.1" 403']},
+      {id:'a4',title:'404 scanning detected',description:'High rate of 404s from 92.63.197.11 — likely site enumeration',severity:'medium',rule:'web_attack',source_ip:'92.63.197.11',username:'—',event_count:22,minutesAgo:130,aiVerdict:'A scanner is systematically probing for common admin paths and known vulnerable endpoints. Low risk on its own, but often precedes a targeted attack.',evidence:['92.63.197.11 - - "GET /wp-admin/setup.php HTTP/1.1" 404','92.63.197.11 - - "GET /phpmyadmin/ HTTP/1.1" 404']}
+    ],
+    blocks: [
+      {ip:'185.220.101.45',active:true,note:'Blocked after brute force alert — repeat offender, escalated duration',block_count:2,blockedMinutesAgo:4,durationMin:30,alertId:'a1'},
+      {ip:'45.155.204.12',active:false,note:'Blocked after brute force alert, expired',block_count:1,blockedMinutesAgo:340,durationMin:15,alertId:null}
+    ]
+  };
+
+  componentDidMount() {
+    this._timer = setInterval(() => this.tick(), 1600);
+  }
+  componentWillUnmount() {
+    clearInterval(this._timer);
+  }
+
+  navigate = (key) => this.setState({ screen: key });
+  goDashboard = () => this.setState({ screen: 'dashboard' });
+  goAlerts = (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ screen: 'alerts' }); };
+  goNewMonitor = (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ screen: 'new-monitor' }); };
+  login = (e) => { e.preventDefault(); this.setState({ screen: 'dashboard' }); };
+  logout = () => this.setState({ screen: 'login' });
+  openAlert = (id) => this.setState({ screen: 'alert-detail', selectedAlertId: id });
+  openSession = (id) => this.setState({ screen: 'monitor', activeSessionId: id });
+  selectMode = (mode) => this.setState({ newMode: mode });
+  setLogType = (e) => this.setState({ logType: e.target.value });
+
+  startMonitor = () => {
+    const id = 's' + Date.now();
+    const labels = { auth: 'auth.log', nginx: 'access.log', sudo: 'sudo.log' };
+    const session = {
+      id, target_name: `demo-host (${labels[this.state.logType]})`,
+      mode: this.state.newMode, log_type: this.state.logType, live: this.state.newMode === 'tail',
+      stats: { lines_processed: 0, auth_failures: 0, auth_successes: 0, alerts: 0 }
+    };
+    this.setState(s => ({ sessions: [session, ...s.sessions], activeSessionId: id, screen: 'monitor' }));
+  };
+
+  toggleMonitorLive = () => {
+    this.setState(s => ({
+      sessions: s.sessions.map(sess => sess.id === s.activeSessionId ? { ...sess, live: !sess.live } : sess)
+    }));
+  };
+
+  tick() {
+    const templates = [
+      { type: 'auth_success', user: 'deploy', ip: '41.203.12.88' },
+      { type: 'auth_failure', user: 'root', ip: '185.220.101.45' },
+      { type: 'auth_failure', user: 'admin', ip: '185.220.101.45' },
+      { type: '404', ip: '92.63.197.11', path: '/wp-admin/setup.php' },
+      { type: 'sudo', user: 'kelvin', cmd: '/usr/bin/apt update' },
+      { type: 'auth_success', user: 'amina', ip: '102.89.44.21' }
+    ];
+    const pick = templates[Math.floor(Math.random() * templates.length)];
+    this.setState(s => {
+      const entry = { id: Date.now() + Math.random(), ...pick, time: new Date() };
+      const feed = [entry, ...s.feed].slice(0, 40);
+      let alerts = s.alerts;
+      const sessions = s.sessions.map(sess => {
+        if (!sess.live) return sess;
+        const stats = { ...sess.stats, lines_processed: sess.stats.lines_processed + 1 };
+        if (pick.type === 'auth_failure') stats.auth_failures++;
+        if (pick.type === 'auth_success') stats.auth_successes++;
+        return { ...sess, stats };
+      });
+      if (pick.type === 'auth_failure' && Math.random() < 0.3) {
+        const newAlert = {
+          id: 'a' + Date.now(), title: 'Brute force attempt detected',
+          description: `5+ failed logins from ${pick.ip} within 60s`, severity: 'critical', rule: 'brute_force',
+          source_ip: pick.ip, username: pick.user, event_count: 5 + Math.floor(Math.random() * 4), minutesAgo: 0,
+          aiVerdict: 'Multiple failed logins from a single address in a short window. Likely an automated attack — the source IP has been blocked automatically.',
+          evidence: [`Failed password for ${pick.user} from ${pick.ip} port 51422 ssh2`, `Failed password for ${pick.user} from ${pick.ip} port 51430 ssh2`, `Failed password for ${pick.user} from ${pick.ip} port 51448 ssh2`]
+        };
+        alerts = [newAlert, ...alerts];
+      }
+      return { feed, sessions, alerts };
+    });
+  }
+
+  timeAgo(min) {
+    if (min < 1) return 'just now';
+    if (min < 60) return `${Math.round(min)}m ago`;
+    return `${Math.round(min / 60)}h ago`;
+  }
+
+  severityStyle(sev) {
+    if (sev === 'critical') return { icon: 'ti-alert-triangle', iconStyle: { background: 'rgba(240,86,74,.15)', color: '#F0564A' }, pillStyle: { background: 'rgba(240,86,74,.15)', color: '#F0564A' } };
+    if (sev === 'high') return { icon: 'ti-clock', iconStyle: { background: 'rgba(232,179,79,.15)', color: '#E8B34F' }, pillStyle: { background: 'rgba(232,179,79,.15)', color: '#E8B34F' } };
+    return { icon: 'ti-info-circle', iconStyle: { background: 'rgba(79,195,232,.15)', color: '#4FC3E8' }, pillStyle: { background: 'rgba(79,195,232,.15)', color: '#4FC3E8' } };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const screen = s.screen;
+
+    const navKeyForScreen = { dashboard: 'dashboard', alerts: 'alerts', 'alert-detail': 'alerts', blocks: 'blocks', 'new-monitor': 'new-monitor', monitor: 'new-monitor' };
+    const activeNavKey = navKeyForScreen[screen] || '';
+    const navDefs = [
+      { key: 'dashboard', label: 'Dashboard', icon: 'ti-layout-dashboard' },
+      { key: 'alerts', label: 'Alerts', icon: 'ti-bell' },
+      { key: 'blocks', label: 'Blocked IPs', icon: 'ti-ban' },
+      { key: 'new-monitor', label: 'New Monitor', icon: 'ti-plus' }
+    ];
+    const baseNav = { display: 'flex', alignItems: 'center', gap: '7px', padding: '9px 15px', borderRadius: '10px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' };
+    const navItems = navDefs.map(n => ({
+      ...n,
+      onClick: () => this.navigate(n.key),
+      navStyle: n.key === activeNavKey
+        ? { ...baseNav, background: 'rgba(74,222,156,.14)', color: '#4ADE9C' }
+        : { ...baseNav, color: 'rgba(255,255,255,.55)' }
+    }));
+
+    const liveSessions = s.sessions.filter(x => x.live).length;
+    const critical = s.alerts.filter(a => a.severity === 'critical').length;
+    const suspicious = s.alerts.filter(a => a.rule === 'suspicious_time').length;
+    const totalEvents = s.sessions.reduce((a, x) => a + x.stats.lines_processed, 0);
+    const metrics = [
+      { label: 'Active monitors', value: String(liveSessions), icon: 'ti-activity', sub: 'log sources watched', valueStyle: { color: '#4FC3E8' } },
+      { label: 'Critical alerts', value: String(critical), icon: 'ti-alert-triangle', sub: 'brute force detected', valueStyle: { color: '#F0564A' } },
+      { label: 'Suspicious logins', value: String(suspicious), icon: 'ti-clock', sub: 'unusual login time', valueStyle: { color: '#E8B34F' } },
+      { label: 'Events processed', value: totalEvents > 999 ? (totalEvents / 1000).toFixed(1) + 'k' : String(totalEvents), icon: 'ti-chart-bar', sub: 'log lines analyzed', valueStyle: { color: '#4ADE9C' } }
+    ];
+
+    const recentAlerts = s.alerts.slice(0, 4).map(a => {
+      const sev = this.severityStyle(a.severity);
+      return { ...a, ...sev, description: a.description, timeAgo: this.timeAgo(a.minutesAgo), onClick: () => this.openAlert(a.id) };
+    });
+
+    const sessionsList = s.sessions.map((sess, i) => ({
+      ...sess,
+      icon: ['ti-server', 'ti-server-2', 'ti-database', 'ti-cpu'][i % 4],
+      metaLine: `${sess.mode === 'tail' ? 'Live tail' : 'Replay'} · ${sess.stats.lines_processed} events`,
+      modeLabel: sess.mode === 'tail' ? 'live' : 'replay',
+      pillStyle: sess.mode === 'tail' ? { background: 'rgba(74,222,156,.15)', color: '#4ADE9C' } : { background: 'rgba(79,195,232,.15)', color: '#4FC3E8' },
+      onClick: () => this.openSession(sess.id)
+    }));
+
+    const feedItems = s.feed.slice(0, 16).map(f => {
+      const isOk = f.type === 'auth_success';
+      const color = isOk ? '#6BEBB4' : f.type === 'sudo' ? '#E8B34F' : '#FF9C8C';
+      let text;
+      if (f.type === 'auth_success') text = `OK   ${f.user}@${f.ip}`;
+      else if (f.type === 'auth_failure') text = `FAIL ${f.user}@${f.ip}`;
+      else if (f.type === '404') text = `404  ${f.ip} \u2192 ${f.path}`;
+      else text = `SUDO ${f.user} \u2192 ${f.cmd}`;
+      return { id: f.id, time: f.time.toTimeString().slice(0, 8), text, textStyle: { color } };
+    });
+
+    const dashboardSub = `Monitoring ${s.sessions.length} log source${s.sessions.length > 1 ? 's' : ''} · last updated just now`;
+
+    const alertsFull = s.alerts.map(a => {
+      const sev = this.severityStyle(a.severity);
+      return { ...a, ...sev, timeAgo: this.timeAgo(a.minutesAgo), onClick: () => this.openAlert(a.id) };
+    });
+
+    const selectedAlert = s.alerts.find(a => a.id === s.selectedAlertId) || s.alerts[0];
+    const detail = selectedAlert ? { ...selectedAlert, ...this.severityStyle(selectedAlert.severity), timeAgo: this.timeAgo(selectedAlert.minutesAgo) } : {};
+
+    const blocksList = s.blocks.map(b => ({
+      ...b,
+      icon: b.active ? 'ti-ban' : 'ti-clock-off',
+      iconStyle: b.active ? { background: 'rgba(240,86,74,.15)', color: '#F0564A' } : { background: 'rgba(232,179,79,.15)', color: '#E8B34F' },
+      pillStyle: b.active ? { background: 'rgba(240,86,74,.15)', color: '#F0564A' } : { background: 'rgba(79,195,232,.15)', color: '#4FC3E8' },
+      statusLabel: b.active ? 'active' : 'expired',
+      offenseLabel: `offense #${b.block_count}`,
+      blockedAgo: this.timeAgo(b.blockedMinutesAgo),
+      durationLabel: `${b.durationMin} min`
+    }));
+
+    const modeCardBase = { border: '1px solid rgba(255,255,255,.08)', borderRadius: '12px', padding: '15px', cursor: 'pointer', background: '#1C212C' };
+    const modeOptions = [
+      { key: 'replay', title: 'Replay sample log', desc: 'Demo against bundled log', icon: 'ti-player-play' },
+      { key: 'tail', title: 'Tail real file', desc: 'Watch a live path in real time', icon: 'ti-file-text' }
+    ].map(m => ({
+      ...m,
+      onClick: () => this.selectMode(m.key),
+      cardStyle: m.key === s.newMode ? { ...modeCardBase, borderColor: '#4ADE9C', background: 'rgba(74,222,156,.08)' } : modeCardBase,
+      iconStyle: m.key === s.newMode ? { background: '#4ADE9C', color: '#0B0D12' } : { background: '#151922', color: '#8A8F9C' }
+    }));
+
+    const rawMonitorSession = s.sessions.find(x => x.id === s.activeSessionId) || s.sessions[0];
+    const monitorSession = rawMonitorSession ? {
+      ...rawMonitorSession,
+      metaLine: `${rawMonitorSession.mode === 'tail' ? 'Live tail' : 'Replay'} · ${rawMonitorSession.stats.lines_processed} events`
+    } : {};
+    const monitorMetrics = rawMonitorSession ? [
+      { label: 'Lines processed', value: String(monitorSession.stats.lines_processed), valueStyle: { color: '#EDEFF3' } },
+      { label: 'Auth failures', value: String(monitorSession.stats.auth_failures), valueStyle: { color: '#F0564A' } },
+      { label: 'Auth successes', value: String(monitorSession.stats.auth_successes), valueStyle: { color: '#4ADE9C' } },
+      { label: 'Alerts fired', value: String(s.alerts.length), valueStyle: { color: '#E8B34F' } }
+    ] : [];
+    const monitorAlerts = s.alerts.slice(0, 3).map(a => {
+      const sev = this.severityStyle(a.severity);
+      return { ...a, ...sev, timeAgo: this.timeAgo(a.minutesAgo), onClick: () => this.openAlert(a.id) };
+    });
+
+    return {
+      isLogin: screen === 'login',
+      isApp: screen !== 'login',
+      isDashboard: screen === 'dashboard',
+      isAlerts: screen === 'alerts',
+      isAlertDetail: screen === 'alert-detail',
+      isBlocks: screen === 'blocks',
+      isNewMonitor: screen === 'new-monitor',
+      isMonitor: screen === 'monitor',
+      navItems, metrics, recentAlerts, sessionsList, feedItems, dashboardSub,
+      alertsFull, alertsCount: s.alerts.length, detail,
+      blocksList, blocksCount: s.blocks.length,
+      modeOptions, logType: s.logType, monitorSession, monitorMetrics, monitorAlerts,
+      monitorToggleLabel: monitorSession && monitorSession.live ? 'Stop' : 'Resume monitoring',
+      monitorToggleStyle: monitorSession && monitorSession.live
+        ? { background: 'rgba(240,86,74,.15)', color: '#F0564A', border: '1px solid rgba(240,86,74,.3)', borderRadius: '10px', padding: '9px 16px', fontSize: '12.5px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit',sans-serif" }
+        : { background: '#4ADE9C', color: '#0B0D12', border: 'none', borderRadius: '10px', padding: '9px 16px', fontSize: '12.5px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit',sans-serif" },
+      login: this.login, logout: this.logout, goDashboard: this.goDashboard, goAlerts: this.goAlerts, goNewMonitor: this.goNewMonitor,
+      startMonitor: this.startMonitor, setLogType: this.setLogType, toggleMonitorLive: this.toggleMonitorLive
+    };
+  }
+}
+
+</script>
+</body>
+</html>
